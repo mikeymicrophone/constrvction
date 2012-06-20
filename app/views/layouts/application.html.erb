@@ -5,6 +5,7 @@
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+  <%= yield :scripts %>
 </head>
 <body>
 	<p class="notice"><%= notice %></p>
@@ -14,6 +15,16 @@
     <%= link_to 'designs', designs_path %>
     <%= link_to 'forms', forms_path %>
     <%= link_to 'textures', textures_path %>
+  </nav>
+  
+  <nav id="registration">
+    <% if current_user %>
+      <%= link_to 'my account', current_user %>
+      <%= link_to 'log out', destroy_user_session_path %>
+    <% else %>
+      <%= link_to 'sign up', new_user_registration_path %>
+      <%= link_to 'sign in', new_user_session_path %>    
+    <% end %>
   </nav>
 <%= yield %>
 

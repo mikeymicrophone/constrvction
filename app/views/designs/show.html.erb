@@ -1,5 +1,9 @@
 <p id="notice"><%= notice %></p>
 
+<div id="render-container">
+  
+</div>
+
 <p>
   <b>Form:</b>
   <%= image_tag @design.form.thumbnail, :width => 200 %>
@@ -18,3 +22,12 @@
 
 <%= link_to 'Edit', edit_design_path(@design) %> |
 <%= link_to 'Back', designs_path %>
+
+<%= content_for :scripts do %>
+  <%= javascript_include_tag 'Three/Three', 'Three/OBJLoader', 'Three/Detector', 'Three/Stats' %>
+  <script type="text/javascript">
+    $(function() {
+      init3DBuild('<%= @design.form.mesh %>', '<%= @design.texture.image.square %>');
+    });
+  </script>
+<% end %>

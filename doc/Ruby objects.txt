@@ -1,0 +1,241 @@
+Last login: Tue Jun 19 23:44:08 on ttys006
+Mary-Huangs-MacBook-Pro:~ Mary$ cd Sites
+Mary-Huangs-MacBook-Pro:Sites Mary$ cd constrvct/
+Mary-Huangs-MacBook-Pro:constrvct Mary$ rails c
+Loading development environment (Rails 3.2.6)
+1.9.2p320 :001 > f = Form.first
+  Form Load (0.1ms)  SELECT "forms".* FROM "forms" LIMIT 1
+ => #<Form id: 1, name: "Dress", thumbnail: "dress.png", mesh: "dress2.obj", created_at: "2012-06-20 04:05:41", updated_at: "2012-06-20 04:05:41"> 
+1.9.2p320 :002 > f.mesh
+ => /uploads/form/mesh/1/dress2.obj 
+1.9.2p320 :003 > f.mesh.class
+ => MeshUploader 
+1.9.2p320 :004 > f.mesh.methods.sort
+ => [:!, :!=, :!~, :<=>, :==, :===, :=~, :__id__, :__send__, :_after_callbacks, :_after_callbacks?, :_before_callbacks, :_before_callbacks?, :_storage, :_storage?, :`, :acts_like?, :as_json, :base_path, :blank?, :breakpoint, :cache!, :cache_dir, :cache_name, :cache_stored_file!, :cached?, :capture, :class, :class_eval, :clone, :current_path, :debugger, :default_url, :define_singleton_method, :delete_cache_id, :delete_tmp_file_after_storage, :display, :download!, :dup, :duplicable?, :enable_processing, :enable_warnings, :ensure_multipart_form, :enum_for, :eql?, :equal?, :extend, :extension_white_list, :file, :filename, :fog_attributes, :fog_authenticated_url_expiration, :fog_credentials, :fog_directory, :fog_host, :fog_public, :freeze, :frozen?, :gem, :hash, :html_safe?, :identifier, :ignore_integrity_errors, :ignore_processing_errors, :in?, :initialize_clone, :initialize_dup, :inspect, :instance_eval, :instance_exec, :instance_of?, :instance_values, :instance_variable_defined?, :instance_variable_get, :instance_variable_names, :instance_variable_set, :instance_variables, :is_a?, :kind_of?, :length, :load, :load_dependency, :method, :methods, :model, :mount_on, :mounted_as, :move_to_cache, :move_to_store, :nil?, :object_id, :parent_cache_id, :parent_cache_id=, :path, :permissions, :presence, :present?, :pretty_inspect, :pretty_print, :pretty_print_cycle, :pretty_print_inspect, :pretty_print_instance_variables, :private_methods, :process!, :process_uri, :processors, :processors?, :protected_methods, :psych_to_yaml, :psych_y, :public_method, :public_methods, :public_send, :quietly, :read, :recreate_versions!, :remove!, :remove_previously_stored_files_after_update, :require, :require_association, :require_dependency, :require_or_load, :respond_to?, :respond_to_missing?, :retrieve_from_cache!, :retrieve_from_store!, :root, :send, :serializable_hash, :silence, :silence_stderr, :silence_stream, :silence_warnings, :singleton_class, :singleton_methods, :size, :storage_engines, :store!, :store_dir, :store_path, :suppress, :suppress_warnings, :taint, :tainted?, :tap, :to_enum, :to_json, :to_param, :to_query, :to_s, :to_xml, :to_yaml, :to_yaml_properties, :trust, :try, :unloadable, :untaint, :untrust, :untrusted?, :url, :validate_integrity, :validate_processing, :version_name, :versions, :with_callbacks, :with_options, :with_warnings, :y] 
+1.9.2p320 :005 > puts _
+!
+!=
+!~
+<=>
+==
+===
+=~
+__id__
+__send__
+_after_callbacks
+_after_callbacks?
+_before_callbacks
+_before_callbacks?
+_storage
+_storage?
+`
+acts_like?
+as_json
+base_path
+blank?
+breakpoint
+cache!
+cache_dir
+cache_name
+cache_stored_file!
+cached?
+capture
+class
+class_eval
+clone
+current_path
+debugger
+default_url
+define_singleton_method
+delete_cache_id
+delete_tmp_file_after_storage
+display
+download!
+dup
+duplicable?
+enable_processing
+enable_warnings
+ensure_multipart_form
+enum_for
+eql?
+equal?
+extend
+extension_white_list
+file
+filename
+fog_attributes
+fog_authenticated_url_expiration
+fog_credentials
+fog_directory
+fog_host
+fog_public
+freeze
+frozen?
+gem
+hash
+html_safe?
+identifier
+ignore_integrity_errors
+ignore_processing_errors
+in?
+initialize_clone
+initialize_dup
+inspect
+instance_eval
+instance_exec
+instance_of?
+instance_values
+instance_variable_defined?
+instance_variable_get
+instance_variable_names
+instance_variable_set
+instance_variables
+is_a?
+kind_of?
+length
+load
+load_dependency
+method
+methods
+model
+mount_on
+mounted_as
+move_to_cache
+move_to_store
+nil?
+object_id
+parent_cache_id
+parent_cache_id=
+path
+permissions
+presence
+present?
+pretty_inspect
+pretty_print
+pretty_print_cycle
+pretty_print_inspect
+pretty_print_instance_variables
+private_methods
+process!
+process_uri
+processors
+processors?
+protected_methods
+psych_to_yaml
+psych_y
+public_method
+public_methods
+public_send
+quietly
+read
+recreate_versions!
+remove!
+remove_previously_stored_files_after_update
+require
+require_association
+require_dependency
+require_or_load
+respond_to?
+respond_to_missing?
+retrieve_from_cache!
+retrieve_from_store!
+root
+send
+serializable_hash
+silence
+silence_stderr
+silence_stream
+silence_warnings
+singleton_class
+singleton_methods
+size
+storage_engines
+store!
+store_dir
+store_path
+suppress
+suppress_warnings
+taint
+tainted?
+tap
+to_enum
+to_json
+to_param
+to_query
+to_s
+to_xml
+to_yaml
+to_yaml_properties
+trust
+try
+unloadable
+untaint
+untrust
+untrusted?
+url
+validate_integrity
+validate_processing
+version_name
+versions
+with_callbacks
+with_options
+with_warnings
+y
+ => nil 
+1.9.2p320 :006 > f.mesh.filename
+ => nil 
+1.9.2p320 :007 > f.mesh.file
+ => #<CarrierWave::SanitizedFile:0x007fa7cb74a7a0 @file="/Users/Mary/Sites/constrvct/public/uploads/form/mesh/1/dress2.obj", @original_filename=nil, @content_type=nil> 
+1.9.2p320 :008 > f.mesh.file.name
+NoMethodError: undefined method `name' for #<CarrierWave::SanitizedFile:0x007fa7cb74a7a0>
+	from (irb):8
+	from /Users/Mary/.rvm/gems/ruby-1.9.2-p320/gems/railties-3.2.6/lib/rails/commands/console.rb:47:in `start'
+	from /Users/Mary/.rvm/gems/ruby-1.9.2-p320/gems/railties-3.2.6/lib/rails/commands/console.rb:8:in `start'
+	from /Users/Mary/.rvm/gems/ruby-1.9.2-p320/gems/railties-3.2.6/lib/rails/commands.rb:41:in `<top (required)>'
+	from script/rails:6:in `require'
+	from script/rails:6:in `<main>'
+1.9.2p320 :009 > f.mesh.file.filename
+ => "dress2.obj" 
+1.9.2p320 :010 > "Mike"
+ => "Mike" 
+1.9.2p320 :011 > "Mike".class
+ => String 
+1.9.2p320 :012 > [1, 2, 5]
+ => [1, 2, 5] 
+1.9.2p320 :013 > [1, 2, 5].class
+ => Array 
+1.9.2p320 :014 > [1, 2, 5].first
+ => 1 
+1.9.2p320 :015 > [1, 2, 5].second
+ => 2 
+1.9.2p320 :016 > my_numbers = [2, 2, 6, 34, 5, 2]
+ => [2, 2, 6, 34, 5, 2] 
+1.9.2p320 :017 > my_numbers[2]
+ => 6 
+1.9.2p320 :018 > my_numbers[0]
+ => 2 
+1.9.2p320 :019 > my_numbers[-1]
+ => 2 
+1.9.2p320 :020 > my_numbers[-2]
+ => 5 
+1.9.2p320 :021 > my_numbers[3..-2]
+ => [34, 5] 
+1.9.2p320 :022 > my_numbers[1..-2]
+ => [2, 6, 34, 5] 
+1.9.2p320 :023 > my_numbers[1..-1]
+ => [2, 6, 34, 5, 2] 
+1.9.2p320 :024 > {:name => 'Mike Schwab', :occupation => 'Ruby programmer', :age => 28, :home => 'Castle Braid'}
+ => {:name=>"Mike Schwab", :occupation=>"Ruby programmer", :age=>28, :home=>"Castle Braid"} 
+1.9.2p320 :025 > details = _
+ => {:name=>"Mike Schwab", :occupation=>"Ruby programmer", :age=>28, :home=>"Castle Braid"} 
+1.9.2p320 :026 > details[:name]
+ => "Mike Schwab" 
+1.9.2p320 :027 > details[:home]
+ => "Castle Braid" 
+1.9.2p320 :028 > :colon_word
+ => :colon_word 
+1.9.2p320 :029 > :colon_word.class
+ => Symbol 
+1.9.2p320 :030 > {3 => :brain, Array.new => Form}
+ => {3=>:brain, []=>Form(id: integer, name: string, thumbnail: string, mesh: string, created_at: datetime, updated_at: datetime)} 
+1.9.2p320 :031 > 

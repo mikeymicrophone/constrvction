@@ -1,0 +1,1211 @@
+Last login: Tue Jun 19 23:22:06 on ttys004
+Mary-Huangs-MacBook-Pro:~ Mary$ rvm
+-bash: rvm: command not found
+Mary-Huangs-MacBook-Pro:~ Mary$ [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+Mary-Huangs-MacBook-Pro:~ Mary$ rvm
+{master:<img src="https://secure.travis-ci.org/wayneeseguin/rvm.png?branch=master" alt="Build Status" /> stable:<img src="https://secure.travis-ci.org/wayneeseguin/rvm.png?branch=stable" alt="Build Status" />}[http://travis-ci.org/#!/wayneeseguin/rvm/branch_summary]
+
+= rvm
+
+* https://rvm.io/
+* https://github.com/wayneeseguin/rvm/
+
+== DESCRIPTION:
+
+RVM is the Ruby enVironment Manager (rvm).
+
+It manages Ruby application environments and switching between them.
+
+== Installation
+
+  curl -L get.rvm.io | bash -s stable [--ruby] [--rails] [--trace]
+
+stable  :: Install stable RVM, good for servers.
+--ruby  :: Additionally install latest ruby version (MRI).
+--rails :: Install gem rails into default gemset (also installs ruby if not
+           selected).
+--trace :: Print trace of the installation, gist output when you have problems.
+
+More details here: https://rvm.io/rvm/install/
+
+== Usage
+
+  rvm [Flags] [Options] Action [Implementation[,Implementation[,...]]
+
+== Flags
+
+--default      :: with 'rvm use X', sets the default ruby for new shells to X.
+--debug        :: Toggle debug mode on for very verbose output.
+--trace        :: Toggle trace mode on to see EVERYTHING rvm is doing.
+--force        :: Force install, removes old install & source before install.
+--summary      :: Used with rubydo to print out a summary of the commands run.
+--latest       :: with gemset --dump skips version strings for latest gem.
+--gems         :: with uninstall/remove removes gems with the interpreter.
+--docs         :: with install, attempt to generate ri after installation.
+--reconfigure  :: Force ./configure on install even if Makefile already exists.
+--skip-gemsets :: with install, skip the installation of default gemsets.
+
+== Options
+
+-v|--version     :: Emit rvm version loaded for current shell
+-l|--level       :: patch level to use with rvm use / install
+   --bin         :: path for binaries to be placed (~/.rvm/bin/)
+-S               :: Specify a script file to attempt to load and run (rubydo)
+-e               :: Execute code from the command line.
+--gems           :: Used to set the 'gems_flag', use with 'remove' to remove
+                    gems
+--archive        :: Used to set the 'archive_flag', use with 'remove' to remove
+                    archive
+--patch          :: With MRI Rubies you may specify one or more full paths to
+                    patches
+
+                    for multiple, specify comma separated:
+
+                      --patch /.../.../a.patch[%prefix],/.../.../.../b.patch
+
+                    'prefix' is an optional argument, which will be bypassed
+                    to the '-p' argument of the 'patch' command. It is separated
+                    from patch file name with '%' symbol.
+-C|--configure   :: custom configure options. If you need to pass several
+                    configure options then append them comma separated:
+
+                      -C --...,--...,--...
+
+--nice           :: process niceness (for slow computers, default 0)
+--ree-options    :: Options passed directly to ree's './installer' on the
+                    command line.
+--with-rubies    :: Specifies a string for rvm to attempt to expand for set
+                    operations.
+
+== Action
+
+(Note: for most actions, 'rvm help action-name' may provide more information.)
+
+*usage*     :: show this usage information
+version     :: show the rvm version installed in rvm_path
+use         :: setup current shell to use a specific ruby version
+reload      :: reload rvm source itself (useful after changing rvm source)
+implode     :: (seppuku) removes the rvm installation completely.
+
+               This means everything in $rvm_path (~/.rvm || /usr/local/rvm).
+
+               This does not touch your profiles. However, this means that you
+               must manually clean up your profiles and remove the lines which
+               source RVM.
+get         :: {head,stable} upgrades rvm to latest head or stable version.
+
+               Check 'rvm help get' for more details.
+
+               (If you experience bugs try this first with head version, then
+               ask for help in #rvm on irc.freenode.net and hang around)
+reset       :: remove current and stored default & system settings.
+
+               (If you experience odd behavior try this second)
+info        :: show the *current* environment information for current ruby
+current     :: print the *current* ruby version and the name of any gemset
+               being used.
+debug       :: show info plus additional information for common issues
+
+install     :: install one or many ruby versions
+
+               See also: https://rvm.io/rubies/installing/
+uninstall   :: uninstall one or many ruby versions, leaves their sources
+remove      :: uninstall one or many ruby versions and remove their sources
+
+migrate     :: Lets you migrate all gemsets from one ruby to another.
+upgrade     :: Lets you upgrade from one version of a ruby to another, including
+               migrating your gemsets semi-automatically.
+
+wrapper     :: generates a set of wrapper executables for a given ruby with the
+               specified ruby and gemset combination. Used under the hood for
+               passenger support and the like.
+
+cleanup     :: Lets you remove stale source folders / archives and other
+               miscellaneous data associated with rvm.
+repair      :: Lets you repair parts of your environment e.g. wrappers, env
+               files and and similar files (e.g. general maintenance).
+snapshot    :: Lets your backup / restore an rvm installation in a lightweight
+               manner.
+
+disk-usage  :: Tells you how much disk space rvm install is using.
+tools       :: Provides general information about the ruby environment,
+               primarily useful when scripting rvm.
+docs        :: Tools to make installing ri and rdoc documentation easier.
+rvmrc       :: Tools related to managing rvmrc trust and loading.
+
+do          :: runs an arbitrary command against specified and/or all rubies
+tests       :: runs 'rake test' across selected ruby versions
+specs       :: runs 'rake spec' across selected ruby versions
+monitor     :: Monitor cwd for testing, run `rake {spec,test}` on changes.
+
+gemset      :: gemsets: https://rvm.io/gemsets/
+
+rubygems    :: Switches the installed version of rubygems for the current ruby.
+
+gemdir      :: display the path to the current gem directory (GEM_HOME).
+srcdir      :: display the path to rvm source directory (may be yanked)
+
+fetch       :: Performs an archive / src fetch only of the selected ruby.
+list        :: show currently installed rubies, interactive output.
+
+               https://rvm.io/rubies/list/
+pkg         :: Install a dependency package {readline,iconv,zlib,openssl}
+
+               https://rvm.io/packages/
+notes       :: Display notes, with operating system specifics.
+
+export      :: Temporarily set an environment variable in the current shell.
+unexport    :: Undo changes made to the environment by 'rvm export'.
+requirements  :: Shows additional OS specific dependencies/requirements for
+                 building various rubies.
+
+== Implementation
+
+*ruby*     :: MRI/YARV Ruby (The Gold Standard) {1.8.6,1.8.7,1.9.1,1.9.2...}
+jruby      :: JRuby, Ruby interpreter on the Java Virtual Machine.
+rbx        :: Rubinius
+ree        :: Ruby Enterprise Edition, MRI Ruby with several custom
+              patches for performance, stability, and memory.
+macruby    :: MacRuby, insanely fast, can make real apps (Mac OS X Only).
+maglev     :: GemStone Ruby, awesome persistent ruby object store.
+ironruby   :: IronRuby, NOT supported yet. Looking for volunteers to help.
+system     :: use the system ruby (eg. pre-rvm state)
+default    :: use rvm set default ruby and system if it hasn't been set.
+
+              https://rvm.io/rubies/default/
+
+== Resources:
+
+https://rvm.io/
+https://www.pivotaltracker.com/projects/26822
+
+== Contributions:
+
+Any and all contributions offered in any form, past present or future, to the
+RVM project are understood to be in complete agreement and acceptance with the
+Apache Licence v2.0.
+
+== LICENSE:
+
+Copyright (c) 2009-2011 Wayne E. Seguin
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+Mary-Huangs-MacBook-Pro:~ Mary$ rvm list
+
+rvm rubies
+
+=* ruby-1.9.2-p320 [ x86_64 ]
+
+# => - current
+# =* - current && default
+#  * - default
+
+Mary-Huangs-MacBook-Pro:~ Mary$ gem list
+
+*** LOCAL GEMS ***
+
+actionmailer (3.2.2)
+actionpack (3.2.2)
+activemodel (3.2.2)
+activerecord (3.2.2)
+activeresource (3.2.2)
+activesupport (3.2.2)
+acts_as_list (0.1.6)
+arel (3.0.2)
+bcrypt-ruby (3.0.1)
+builder (3.0.0)
+bundler (1.1.4)
+devise (2.1.0)
+erubis (2.7.0)
+hike (1.2.1)
+i18n (0.6.0)
+journey (1.0.3)
+json (1.7.3)
+mail (2.4.4)
+mime-types (1.18)
+multi_json (1.3.6)
+mysql2 (0.3.11)
+orm_adapter (0.0.7)
+polyglot (0.3.3)
+rack (1.4.1)
+rack-cache (1.2)
+rack-ssl (1.3.2)
+rack-test (0.6.1)
+rails (3.2.2)
+railties (3.2.2)
+rake (0.9.2.2)
+rdoc (3.12)
+RedCloth (4.2.9)
+rubygems-bundler (1.0.2)
+rvm (1.11.3.3)
+sprockets (2.1.3)
+sqlite3 (1.3.6)
+thor (0.14.6)
+tilt (1.3.3)
+treetop (1.4.10)
+tzinfo (0.3.33)
+warden (1.1.1)
+Mary-Huangs-MacBook-Pro:~ Mary$ gem update
+Updating installed gems
+Updating actionmailer
+Fetching: activesupport-3.2.6.gem (100%)
+Fetching: activemodel-3.2.6.gem (100%)
+Fetching: actionpack-3.2.6.gem (100%)
+Fetching: actionmailer-3.2.6.gem (100%)
+Successfully installed activesupport-3.2.6
+Successfully installed activemodel-3.2.6
+Successfully installed actionpack-3.2.6
+Successfully installed actionmailer-3.2.6
+Updating activerecord
+Fetching: activerecord-3.2.6.gem (100%)
+Successfully installed activerecord-3.2.6
+Updating activeresource
+Fetching: activeresource-3.2.6.gem (100%)
+Successfully installed activeresource-3.2.6
+Updating devise
+Fetching: warden-1.2.1.gem (100%)
+Fetching: orm_adapter-0.1.0.gem (100%)
+Fetching: devise-2.1.2.gem (100%)
+Successfully installed warden-1.2.1
+Successfully installed orm_adapter-0.1.0
+Successfully installed devise-2.1.2
+Updating journey
+Fetching: journey-1.0.4.gem (100%)
+Successfully installed journey-1.0.4
+Updating rails
+Fetching: railties-3.2.6.gem (100%)
+Fetching: rails-3.2.6.gem (100%)
+Successfully installed railties-3.2.6
+Successfully installed rails-3.2.6
+Updating rvm
+Fetching: rvm-1.11.3.4.gem (100%)
+Successfully installed rvm-1.11.3.4
+Updating sprockets
+Fetching: sprockets-2.4.3.gem (100%)
+Successfully installed sprockets-2.4.3
+Updating thor
+Fetching: thor-0.15.3.gem (100%)
+Successfully installed thor-0.15.3
+Gems updated: activesupport, activemodel, actionpack, actionmailer, activerecord, activeresource, warden, orm_adapter, devise, journey, railties, rails, rvm, sprockets, thor
+Installing ri documentation for activesupport-3.2.6...
+Installing ri documentation for activemodel-3.2.6...
+Installing ri documentation for actionpack-3.2.6...
+Installing ri documentation for actionmailer-3.2.6...
+Installing ri documentation for activerecord-3.2.6...
+Installing ri documentation for activeresource-3.2.6...
+Installing ri documentation for warden-1.2.1...
+Installing ri documentation for orm_adapter-0.1.0...
+Installing ri documentation for devise-2.1.2...
+Installing ri documentation for journey-1.0.4...
+Installing ri documentation for railties-3.2.6...
+Installing ri documentation for rails-3.2.6...
+Installing ri documentation for rvm-1.11.3.4...
+Installing ri documentation for sprockets-2.4.3...
+Installing ri documentation for thor-0.15.3...
+Installing RDoc documentation for activesupport-3.2.6...
+Installing RDoc documentation for activemodel-3.2.6...
+Installing RDoc documentation for actionpack-3.2.6...
+Installing RDoc documentation for actionmailer-3.2.6...
+Installing RDoc documentation for activerecord-3.2.6...
+Installing RDoc documentation for activeresource-3.2.6...
+Installing RDoc documentation for warden-1.2.1...
+Installing RDoc documentation for orm_adapter-0.1.0...
+Installing RDoc documentation for devise-2.1.2...
+Installing RDoc documentation for journey-1.0.4...
+Installing RDoc documentation for railties-3.2.6...
+Installing RDoc documentation for rails-3.2.6...
+Installing RDoc documentation for rvm-1.11.3.4...
+Installing RDoc documentation for sprockets-2.4.3...
+Installing RDoc documentation for thor-0.15.3...
+Mary-Huangs-MacBook-Pro:~ Mary$ ls
+Applications	Downloads	Movies		Public
+Desktop		Dropbox		Music		Sites
+Documents	Library		Pictures	netfabb
+Mary-Huangs-MacBook-Pro:~ Mary$ cd Sites
+Mary-Huangs-MacBook-Pro:Sites Mary$ ls
+images		index.html
+Mary-Huangs-MacBook-Pro:Sites Mary$ ls ../Documents
+3D models				dresses
+About Stacks.pdf			face.jpg
+Adobe					fittingroom.ai
+Adobe CS4 Serial and Activation.dmg	future of stuff
+AirshipReport.pdf			getexcitedandmakethings-cut.ai
+Bikini Final				getexcitedandmakethings.ai
+Blossom					hapticdata-toxiclibsjs-328e102.zip
+Brushed_Metal_by_meiastar.jpg		houndsooth-large.gif
+CC330_Manual.pdf			houndsooth.gif
+CONSTRVCT				houndsooth.jpg
+CONSTRVCT video				houndstooth-large.jpg
+CONTINUUM				houndstooth_heart.jpg
+CONTINVVM				hypercube
+Chateau Maisons-Laffitte-1		illusively
+Continuum Dev				inspiration
+Continuum Web				inum.png
+D.line.ai				keaton1.jpg
+D.line.png				keaton2.jpg
+DDT presentation-mary.key		lobster-font-1.4.zip
+Dproduction.png				mannequin MKS-086.jpg
+Future Fashion				me photos
+Gal55_Steampunk_Jewelry.jpeg		music_from_inundate
+Ideas					new york skyline.jpg
+Instustrial Inkjet.pdf			nyc.jpg
+Javascript				opencart
+LACE					person.svg
+LISA-presentation.key			portfolio website
+LeeJofa-+Yellow+Houndstooth.jpg		processing-js-1.2.1
+Lobster 1.4				processing-js-1.3.0
+MakeHuman				processing-js-1.3.0 2
+MapBox					processingJS-1.2.1-examples
+Mary-Joshua-interview.rtf		processingLibraryTemplate_20100507
+MaryHuang-bio.rtf			sake-creator.mov
+MaryHuang-drivers-license.jpg		seaworld
+Mike					selected mary & jenna
+ModelBuilder v0004.zip			shapeways-cards.indd
+N12 Bikini Materials			shapeways_shop_example
+N12.bikini.bottom.fullback2		shapeways_shop_example.zip
+New_York_Skyline_by_trogdor7.jpg	shasa-model.png
+PoeMobil				shasha.mtl
+Process					shasha.obj
+Processing				shoe.blend
+ROME					shoe.blend1
+Rhyme & Reason				shoe.blend2
+Shoes					shoe.mtl
+SignUp_LogIn.pdf			shoe.obj
+SignUp_LogIn_combined.pdf		shop
+Sound					sound-band-screen.mov
+Stitch World AUGUST-11.pdf		sound-band-sm.mov
+SunGlasses.3dm				sound-band.mov
+SunGlasses.zip				terra
+THESIS					test-texture.png
+TileSaverTest				threeJS
+TileSaverTest.zip			topnav 2 2.pdf
+Toxiclibs examples			toxiclibs-complete-0020
+UI elements				toxiclibsJS
+Version Cue				treegrowth.zip
+adobeact4.zip				triangle-necklace.ai
+animals					typeface_press
+bag-3views.png				typeface_press.zip
+bag-allpieces.png			vintage bras
+carpefuturum.ai				yuniku-sm.mov
+continuum_logotype.ai			yuniku.mov
+continuuminum.png			yuniku.png
+design-analysis.pdf			yuniku_screen.mov
+Mary-Huangs-MacBook-Pro:Sites Mary$ rails -v
+Rails 3.2.6
+Mary-Huangs-MacBook-Pro:Sites Mary$ rails new constrvct
+      create  
+      create  README.rdoc
+      create  Rakefile
+      create  config.ru
+      create  .gitignore
+      create  Gemfile
+      create  app
+      create  app/assets/images/rails.png
+      create  app/assets/javascripts/application.js
+      create  app/assets/stylesheets/application.css
+      create  app/controllers/application_controller.rb
+      create  app/helpers/application_helper.rb
+      create  app/mailers
+      create  app/models
+      create  app/views/layouts/application.html.erb
+      create  app/mailers/.gitkeep
+      create  app/models/.gitkeep
+      create  config
+      create  config/routes.rb
+      create  config/application.rb
+      create  config/environment.rb
+      create  config/environments
+      create  config/environments/development.rb
+      create  config/environments/production.rb
+      create  config/environments/test.rb
+      create  config/initializers
+      create  config/initializers/backtrace_silencers.rb
+      create  config/initializers/inflections.rb
+      create  config/initializers/mime_types.rb
+      create  config/initializers/secret_token.rb
+      create  config/initializers/session_store.rb
+      create  config/initializers/wrap_parameters.rb
+      create  config/locales
+      create  config/locales/en.yml
+      create  config/boot.rb
+      create  config/database.yml
+      create  db
+      create  db/seeds.rb
+      create  doc
+      create  doc/README_FOR_APP
+      create  lib
+      create  lib/tasks
+      create  lib/tasks/.gitkeep
+      create  lib/assets
+      create  lib/assets/.gitkeep
+      create  log
+      create  log/.gitkeep
+      create  public
+      create  public/404.html
+      create  public/422.html
+      create  public/500.html
+      create  public/favicon.ico
+      create  public/index.html
+      create  public/robots.txt
+      create  script
+      create  script/rails
+      create  test/fixtures
+      create  test/fixtures/.gitkeep
+      create  test/functional
+      create  test/functional/.gitkeep
+      create  test/integration
+      create  test/integration/.gitkeep
+      create  test/unit
+      create  test/unit/.gitkeep
+      create  test/performance/browsing_test.rb
+      create  test/test_helper.rb
+      create  tmp/cache
+      create  tmp/cache/assets
+      create  vendor/assets/javascripts
+      create  vendor/assets/javascripts/.gitkeep
+      create  vendor/assets/stylesheets
+      create  vendor/assets/stylesheets/.gitkeep
+      create  vendor/plugins
+      create  vendor/plugins/.gitkeep
+         run  bundle install
+Fetching gem metadata from https://rubygems.org/.........
+Using rake (0.9.2.2) 
+Using i18n (0.6.0) 
+Using multi_json (1.3.6) 
+Using activesupport (3.2.6) 
+Using builder (3.0.0) 
+Using activemodel (3.2.6) 
+Using erubis (2.7.0) 
+Using journey (1.0.4) 
+Using rack (1.4.1) 
+Using rack-cache (1.2) 
+Using rack-test (0.6.1) 
+Using hike (1.2.1) 
+Using tilt (1.3.3) 
+Using sprockets (2.1.3) 
+Using actionpack (3.2.6) 
+Using mime-types (1.18) 
+Using polyglot (0.3.3) 
+Using treetop (1.4.10) 
+Using mail (2.4.4) 
+Using actionmailer (3.2.6) 
+Using arel (3.0.2) 
+Using tzinfo (0.3.33) 
+Using activerecord (3.2.6) 
+Using activeresource (3.2.6) 
+Using bundler (1.1.4) 
+Installing coffee-script-source (1.3.3) 
+Installing execjs (1.4.0) 
+Installing coffee-script (2.2.0) 
+Using rack-ssl (1.3.2) 
+Using json (1.7.3) 
+Using rdoc (3.12) 
+Using thor (0.15.3) 
+Using railties (3.2.6) 
+Installing coffee-rails (3.2.2) 
+Installing jquery-rails (2.0.2) 
+Using rails (3.2.6) 
+Installing sass (3.1.19) 
+Installing sass-rails (3.2.5) 
+Using sqlite3 (1.3.6) 
+Installing uglifier (1.2.5) 
+Your bundle is complete! Use `bundle show [gemname]` to see where a bundled gem is installed.
+Mary-Huangs-MacBook-Pro:Sites Mary$ cd constrvct/
+Mary-Huangs-MacBook-Pro:constrvct Mary$ mate .
+Mary-Huangs-MacBook-Pro:constrvct Mary$ bundle
+Using rake (0.9.2.2) 
+Using i18n (0.6.0) 
+Using multi_json (1.3.6) 
+Using activesupport (3.2.6) 
+Using builder (3.0.0) 
+Using activemodel (3.2.6) 
+Using erubis (2.7.0) 
+Using journey (1.0.4) 
+Using rack (1.4.1) 
+Using rack-cache (1.2) 
+Using rack-test (0.6.1) 
+Using hike (1.2.1) 
+Using tilt (1.3.3) 
+Using sprockets (2.1.3) 
+Using actionpack (3.2.6) 
+Using mime-types (1.18) 
+Using polyglot (0.3.3) 
+Using treetop (1.4.10) 
+Using mail (2.4.4) 
+Using actionmailer (3.2.6) 
+Using arel (3.0.2) 
+Using tzinfo (0.3.33) 
+Using activerecord (3.2.6) 
+Using activeresource (3.2.6) 
+Using bcrypt-ruby (3.0.1) 
+Using bundler (1.1.4) 
+Using coffee-script-source (1.3.3) 
+Using execjs (1.4.0) 
+Using coffee-script (2.2.0) 
+Using rack-ssl (1.3.2) 
+Using json (1.7.3) 
+Using rdoc (3.12) 
+Using thor (0.15.3) 
+Using railties (3.2.6) 
+Using coffee-rails (3.2.2) 
+Using orm_adapter (0.1.0) 
+Using warden (1.2.1) 
+Using devise (2.1.2) 
+Using jquery-rails (2.0.2) 
+Using rails (3.2.6) 
+Using sass (3.1.19) 
+Using sass-rails (3.2.5) 
+Using sqlite3 (1.3.6) 
+Using uglifier (1.2.5) 
+Your bundle is complete! Use `bundle show [gemname]` to see where a bundled gem is installed.
+Mary-Huangs-MacBook-Pro:constrvct Mary$ rails g
+Usage: rails generate GENERATOR [args] [options]
+
+General options:
+  -h, [--help]     # Print generator's options and usage
+  -p, [--pretend]  # Run but do not make any changes
+  -f, [--force]    # Overwrite files that already exist
+  -s, [--skip]     # Skip files that already exist
+  -q, [--quiet]    # Suppress status output
+
+Please choose a generator below.
+
+Rails:
+  assets
+  controller
+  generator
+  helper
+  integration_test
+  mailer
+  migration
+  model
+  observer
+  performance_test
+  resource
+  scaffold
+  scaffold_controller
+  session_migration
+  task
+
+ActiveRecord:
+  active_record:devise
+
+Coffee:
+  coffee:assets
+
+Devise:
+  devise
+  devise:install
+  devise:views
+
+Jquery:
+  jquery:install
+
+Js:
+  js:assets
+
+Mongoid:
+  mongoid:devise
+
+Mary-Huangs-MacBook-Pro:constrvct Mary$ rails g devise:install
+      create  config/initializers/devise.rb
+      create  config/locales/devise.en.yml
+===============================================================================
+
+Some setup you must do manually if you haven't yet:
+
+  1. Ensure you have defined default url options in your environments files. Here 
+     is an example of default_url_options appropriate for a development environment 
+     in config/environments/development.rb:
+
+       config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+
+     In production, :host should be set to the actual host of your application.
+
+  2. Ensure you have defined root_url to *something* in your config/routes.rb.
+     For example:
+
+       root :to => "home#index"
+
+  3. Ensure you have flash messages in app/views/layouts/application.html.erb.
+     For example:
+
+       <p class="notice"><%= notice %></p>
+       <p class="alert"><%= alert %></p>
+
+  4. If you are deploying Rails 3.1 on Heroku, you may want to set:
+
+       config.assets.initialize_on_precompile = false
+
+     On config/application.rb forcing your application to not access the DB
+     or load models when precompiling your assets.
+
+===============================================================================
+Mary-Huangs-MacBook-Pro:constrvct Mary$ rails g devise user
+      invoke  active_record
+      create    db/migrate/20120620034018_devise_create_users.rb
+      create    app/models/user.rb
+      invoke    test_unit
+      create      test/unit/user_test.rb
+      create      test/fixtures/users.yml
+      insert    app/models/user.rb
+       route  devise_for :users
+Mary-Huangs-MacBook-Pro:constrvct Mary$ rake db:migrate
+==  DeviseCreateUsers: migrating ==============================================
+-- create_table(:users)
+   -> 0.0057s
+-- add_index(:users, :email, {:unique=>true})
+   -> 0.0006s
+-- add_index(:users, :reset_password_token, {:unique=>true})
+   -> 0.0004s
+==  DeviseCreateUsers: migrated (0.0069s) =====================================
+
+Mary-Huangs-MacBook-Pro:constrvct Mary$ rails g devise:views
+      invoke  Devise::Generators::SharedViewsGenerator
+      create    app/views/devise/shared
+      create    app/views/devise/shared/_links.erb
+      invoke  form_for
+      create    app/views/devise/confirmations
+      create    app/views/devise/confirmations/new.html.erb
+      create    app/views/devise/passwords
+      create    app/views/devise/passwords/edit.html.erb
+      create    app/views/devise/passwords/new.html.erb
+      create    app/views/devise/registrations
+      create    app/views/devise/registrations/edit.html.erb
+      create    app/views/devise/registrations/new.html.erb
+      create    app/views/devise/sessions
+      create    app/views/devise/sessions/new.html.erb
+      create    app/views/devise/unlocks
+      create    app/views/devise/unlocks/new.html.erb
+      invoke  erb
+      create    app/views/devise/mailer
+      create    app/views/devise/mailer/confirmation_instructions.html.erb
+      create    app/views/devise/mailer/reset_password_instructions.html.erb
+      create    app/views/devise/mailer/unlock_instructions.html.erb
+Mary-Huangs-MacBook-Pro:constrvct Mary$ rails g
+Usage: rails generate GENERATOR [args] [options]
+
+General options:
+  -h, [--help]     # Print generator's options and usage
+  -p, [--pretend]  # Run but do not make any changes
+  -f, [--force]    # Overwrite files that already exist
+  -s, [--skip]     # Skip files that already exist
+  -q, [--quiet]    # Suppress status output
+
+Please choose a generator below.
+
+Rails:
+  assets
+  controller
+  generator
+  helper
+  integration_test
+  mailer
+  migration
+  model
+  observer
+  performance_test
+  resource
+  scaffold
+  scaffold_controller
+  session_migration
+  task
+
+ActiveRecord:
+  active_record:devise
+
+Coffee:
+  coffee:assets
+
+Devise:
+  devise
+  devise:install
+  devise:views
+
+Jquery:
+  jquery:install
+
+Js:
+  js:assets
+
+Mongoid:
+  mongoid:devise
+
+Mary-Huangs-MacBook-Pro:constrvct Mary$ bundle
+Fetching gem metadata from https://rubygems.org/........
+Using rake (0.9.2.2) 
+Using i18n (0.6.0) 
+Using multi_json (1.3.6) 
+Using activesupport (3.2.6) 
+Using builder (3.0.0) 
+Using activemodel (3.2.6) 
+Using erubis (2.7.0) 
+Using journey (1.0.4) 
+Using rack (1.4.1) 
+Using rack-cache (1.2) 
+Using rack-test (0.6.1) 
+Using hike (1.2.1) 
+Using tilt (1.3.3) 
+Using sprockets (2.1.3) 
+Using actionpack (3.2.6) 
+Using mime-types (1.18) 
+Using polyglot (0.3.3) 
+Using treetop (1.4.10) 
+Using mail (2.4.4) 
+Using actionmailer (3.2.6) 
+Using arel (3.0.2) 
+Using tzinfo (0.3.33) 
+Using activerecord (3.2.6) 
+Using activeresource (3.2.6) 
+Using bcrypt-ruby (3.0.1) 
+Using bundler (1.1.4) 
+Using coffee-script-source (1.3.3) 
+Using execjs (1.4.0) 
+Using coffee-script (2.2.0) 
+Using rack-ssl (1.3.2) 
+Using json (1.7.3) 
+Using rdoc (3.12) 
+Using thor (0.15.3) 
+Using railties (3.2.6) 
+Using coffee-rails (3.2.2) 
+Using orm_adapter (0.1.0) 
+Using warden (1.2.1) 
+Using devise (2.1.2) 
+Installing diff-lcs (1.1.3) 
+Using jquery-rails (2.0.2) 
+Using rails (3.2.6) 
+Installing rspec-core (2.10.1) 
+Installing rspec-expectations (2.10.0) 
+Installing rspec-mocks (2.10.1) 
+Installing rspec (2.10.0) 
+Installing rspec-rails (2.10.1) 
+Using sass (3.1.19) 
+Using sass-rails (3.2.5) 
+Using sqlite3 (1.3.6) 
+Using uglifier (1.2.5) 
+Your bundle is complete! Use `bundle show [gemname]` to see where a bundled gem is installed.
+Mary-Huangs-MacBook-Pro:constrvct Mary$ rails g
+Usage: rails generate GENERATOR [args] [options]
+
+General options:
+  -h, [--help]     # Print generator's options and usage
+  -p, [--pretend]  # Run but do not make any changes
+  -f, [--force]    # Overwrite files that already exist
+  -s, [--skip]     # Skip files that already exist
+  -q, [--quiet]    # Suppress status output
+
+Please choose a generator below.
+
+Rails:
+  assets
+  controller
+  generator
+  helper
+  integration_test
+  mailer
+  migration
+  model
+  observer
+  performance_test
+  resource
+  scaffold
+  scaffold_controller
+  session_migration
+  task
+
+ActiveRecord:
+  active_record:devise
+
+Coffee:
+  coffee:assets
+
+Devise:
+  devise
+  devise:install
+  devise:views
+
+Jquery:
+  jquery:install
+
+Js:
+  js:assets
+
+Mongoid:
+  mongoid:devise
+
+Rspec:
+  rspec:controller
+  rspec:helper
+  rspec:install
+  rspec:integration
+  rspec:mailer
+  rspec:model
+  rspec:observer
+  rspec:scaffold
+  rspec:view
+
+Mary-Huangs-MacBook-Pro:constrvct Mary$ rails g rspec:scaffold form -p
+      create  spec/controllers/forms_controller_spec.rb
+      create  spec/views/forms/edit.html.erb_spec.rb
+      create  spec/views/forms/index.html.erb_spec.rb
+      create  spec/views/forms/new.html.erb_spec.rb
+      create  spec/views/forms/show.html.erb_spec.rb
+      invoke  helper
+      create    spec/helpers/forms_helper_spec.rb
+      create  spec/routing/forms_routing_spec.rb
+      invoke  test_unit
+      create    test/integration/form_test.rb
+Mary-Huangs-MacBook-Pro:constrvct Mary$ rails g scaffold form name:string thumbnail:string mesh:string
+      invoke  active_record
+      create    db/migrate/20120620035712_create_forms.rb
+      create    app/models/form.rb
+      invoke    test_unit
+      create      test/unit/form_test.rb
+      create      test/fixtures/forms.yml
+      invoke  resource_route
+       route    resources :forms
+      invoke  scaffold_controller
+      create    app/controllers/forms_controller.rb
+      invoke    erb
+      create      app/views/forms
+      create      app/views/forms/index.html.erb
+      create      app/views/forms/edit.html.erb
+      create      app/views/forms/show.html.erb
+      create      app/views/forms/new.html.erb
+      create      app/views/forms/_form.html.erb
+      invoke    test_unit
+      create      test/functional/forms_controller_test.rb
+      invoke    helper
+      create      app/helpers/forms_helper.rb
+      invoke      test_unit
+      create        test/unit/helpers/forms_helper_test.rb
+      invoke  assets
+      invoke    coffee
+      create      app/assets/javascripts/forms.js.coffee
+      invoke    scss
+      create      app/assets/stylesheets/forms.css.scss
+      invoke  scss
+      create    app/assets/stylesheets/scaffolds.css.scss
+Mary-Huangs-MacBook-Pro:constrvct Mary$ rake db:migrate
+==  CreateForms: migrating ====================================================
+-- create_table(:forms)
+   -> 0.0070s
+==  CreateForms: migrated (0.0070s) ===========================================
+
+Mary-Huangs-MacBook-Pro:constrvct Mary$ bundle
+Fetching gem metadata from https://rubygems.org/........
+Using rake (0.9.2.2) 
+Using i18n (0.6.0) 
+Using multi_json (1.3.6) 
+Using activesupport (3.2.6) 
+Using builder (3.0.0) 
+Using activemodel (3.2.6) 
+Using erubis (2.7.0) 
+Using journey (1.0.4) 
+Using rack (1.4.1) 
+Using rack-cache (1.2) 
+Using rack-test (0.6.1) 
+Using hike (1.2.1) 
+Using tilt (1.3.3) 
+Using sprockets (2.1.3) 
+Using actionpack (3.2.6) 
+Using mime-types (1.18) 
+Using polyglot (0.3.3) 
+Using treetop (1.4.10) 
+Using mail (2.4.4) 
+Using actionmailer (3.2.6) 
+Using arel (3.0.2) 
+Using tzinfo (0.3.33) 
+Using activerecord (3.2.6) 
+Using activeresource (3.2.6) 
+Using bcrypt-ruby (3.0.1) 
+Using bundler (1.1.4) 
+Installing carrierwave (0.6.2) 
+Using coffee-script-source (1.3.3) 
+Using execjs (1.4.0) 
+Using coffee-script (2.2.0) 
+Using rack-ssl (1.3.2) 
+Using json (1.7.3) 
+Using rdoc (3.12) 
+Using thor (0.15.3) 
+Using railties (3.2.6) 
+Using coffee-rails (3.2.2) 
+Using orm_adapter (0.1.0) 
+Using warden (1.2.1) 
+Using devise (2.1.2) 
+Using diff-lcs (1.1.3) 
+Using jquery-rails (2.0.2) 
+Using rails (3.2.6) 
+Using rspec-core (2.10.1) 
+Using rspec-expectations (2.10.0) 
+Using rspec-mocks (2.10.1) 
+Using rspec (2.10.0) 
+Using rspec-rails (2.10.1) 
+Using sass (3.1.19) 
+Using sass-rails (3.2.5) 
+Using sqlite3 (1.3.6) 
+Using uglifier (1.2.5) 
+Your bundle is complete! Use `bundle show [gemname]` to see where a bundled gem is installed.
+Mary-Huangs-MacBook-Pro:constrvct Mary$ rails g uploader mesh
+      create  app/uploaders/mesh_uploader.rb
+Mary-Huangs-MacBook-Pro:constrvct Mary$ rails g uploader image
+      create  app/uploaders/image_uploader.rb
+Mary-Huangs-MacBook-Pro:constrvct Mary$ github
+Mary-Huangs-MacBook-Pro:constrvct Mary$ git init
+Initialized empty Git repository in /Users/Mary/Sites/constrvct/.git/
+Mary-Huangs-MacBook-Pro:constrvct Mary$ github
+Mary-Huangs-MacBook-Pro:constrvct Mary$ rm public/index.html
+Mary-Huangs-MacBook-Pro:constrvct Mary$ ls
+Gemfile		README.rdoc	app		config.ru	doc		log		script		tmp
+Gemfile.lock	Rakefile	config		db		lib		public		test		vendor
+Mary-Huangs-MacBook-Pro:constrvct Mary$ mate .gitignore
+Mary-Huangs-MacBook-Pro:constrvct Mary$ git status
+# On branch master
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	public/uploads/
+nothing added to commit but untracked files present (use "git add" to track)
+Mary-Huangs-MacBook-Pro:constrvct Mary$ git status
+# On branch master
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   .gitignore
+#
+no changes added to commit (use "git add" and/or "git commit -a")
+Mary-Huangs-MacBook-Pro:constrvct Mary$ github
+Mary-Huangs-MacBook-Pro:constrvct Mary$ rails g scaffold texture name:string image:string
+      invoke  active_record
+      create    db/migrate/20120620043004_create_textures.rb
+      create    app/models/texture.rb
+      invoke    test_unit
+      create      test/unit/texture_test.rb
+      create      test/fixtures/textures.yml
+      invoke  resource_route
+       route    resources :textures
+      invoke  scaffold_controller
+      create    app/controllers/textures_controller.rb
+      invoke    erb
+      create      app/views/textures
+      create      app/views/textures/index.html.erb
+      create      app/views/textures/edit.html.erb
+      create      app/views/textures/show.html.erb
+      create      app/views/textures/new.html.erb
+      create      app/views/textures/_form.html.erb
+      invoke    test_unit
+      create      test/functional/textures_controller_test.rb
+      invoke    helper
+      create      app/helpers/textures_helper.rb
+      invoke      test_unit
+      create        test/unit/helpers/textures_helper_test.rb
+      invoke  assets
+      invoke    coffee
+      create      app/assets/javascripts/textures.js.coffee
+      invoke    scss
+      create      app/assets/stylesheets/textures.css.scss
+      invoke  scss
+   identical    app/assets/stylesheets/scaffolds.css.scss
+Mary-Huangs-MacBook-Pro:constrvct Mary$ rake db:migrate
+==  CreateTextures: migrating =================================================
+-- create_table(:textures)
+   -> 0.0070s
+==  CreateTextures: migrated (0.0071s) ========================================
+
+Mary-Huangs-MacBook-Pro:constrvct Mary$ rails g scaffold design form:belongs_to texture:belongs_to user:belongs_to
+      invoke  active_record
+      create    db/migrate/20120620044343_create_designs.rb
+      create    app/models/design.rb
+      invoke    test_unit
+      create      test/unit/design_test.rb
+      create      test/fixtures/designs.yml
+      invoke  resource_route
+       route    resources :designs
+      invoke  scaffold_controller
+      create    app/controllers/designs_controller.rb
+      invoke    erb
+      create      app/views/designs
+      create      app/views/designs/index.html.erb
+      create      app/views/designs/edit.html.erb
+      create      app/views/designs/show.html.erb
+      create      app/views/designs/new.html.erb
+      create      app/views/designs/_form.html.erb
+      invoke    test_unit
+      create      test/functional/designs_controller_test.rb
+      invoke    helper
+      create      app/helpers/designs_helper.rb
+      invoke      test_unit
+      create        test/unit/helpers/designs_helper_test.rb
+      invoke  assets
+      invoke    coffee
+      create      app/assets/javascripts/designs.js.coffee
+      invoke    scss
+      create      app/assets/stylesheets/designs.css.scss
+      invoke  scss
+   identical    app/assets/stylesheets/scaffolds.css.scss
+Mary-Huangs-MacBook-Pro:constrvct Mary$ rake db:migrate
+==  CreateDesigns: migrating ==================================================
+-- create_table(:designs)
+   -> 0.0072s
+-- add_index(:designs, :form_id)
+   -> 0.0004s
+-- add_index(:designs, :texture_id)
+   -> 0.0004s
+-- add_index(:designs, :user_id)
+   -> 0.0005s
+==  CreateDesigns: migrated (0.0087s) =========================================
+
+Mary-Huangs-MacBook-Pro:constrvct Mary$ rake routes
+                 designs GET    /designs(.:format)             designs#index
+                         POST   /designs(.:format)             designs#create
+              new_design GET    /designs/new(.:format)         designs#new
+             edit_design GET    /designs/:id/edit(.:format)    designs#edit
+                  design GET    /designs/:id(.:format)         designs#show
+                         PUT    /designs/:id(.:format)         designs#update
+                         DELETE /designs/:id(.:format)         designs#destroy
+                textures GET    /textures(.:format)            textures#index
+                         POST   /textures(.:format)            textures#create
+             new_texture GET    /textures/new(.:format)        textures#new
+            edit_texture GET    /textures/:id/edit(.:format)   textures#edit
+                 texture GET    /textures/:id(.:format)        textures#show
+                         PUT    /textures/:id(.:format)        textures#update
+                         DELETE /textures/:id(.:format)        textures#destroy
+                   forms GET    /forms(.:format)               forms#index
+                         POST   /forms(.:format)               forms#create
+                new_form GET    /forms/new(.:format)           forms#new
+               edit_form GET    /forms/:id/edit(.:format)      forms#edit
+                    form GET    /forms/:id(.:format)           forms#show
+                         PUT    /forms/:id(.:format)           forms#update
+                         DELETE /forms/:id(.:format)           forms#destroy
+        new_user_session GET    /users/sign_in(.:format)       devise/sessions#new
+            user_session POST   /users/sign_in(.:format)       devise/sessions#create
+    destroy_user_session DELETE /users/sign_out(.:format)      devise/sessions#destroy
+           user_password POST   /users/password(.:format)      devise/passwords#create
+       new_user_password GET    /users/password/new(.:format)  devise/passwords#new
+      edit_user_password GET    /users/password/edit(.:format) devise/passwords#edit
+                         PUT    /users/password(.:format)      devise/passwords#update
+cancel_user_registration GET    /users/cancel(.:format)        devise/registrations#cancel
+       user_registration POST   /users(.:format)               devise/registrations#create
+   new_user_registration GET    /users/sign_up(.:format)       devise/registrations#new
+  edit_user_registration GET    /users/edit(.:format)          devise/registrations#edit
+                         PUT    /users(.:format)               devise/registrations#update
+                         DELETE /users(.:format)               devise/registrations#destroy
+                    user GET    /users/:id(.:format)           users#show
+                    root        /                              home#index
+Mary-Huangs-MacBook-Pro:constrvct Mary$ rails g migration add_preview_to_design
+      invoke  active_record
+      create    db/migrate/20120620050556_add_preview_to_design.rb
+Mary-Huangs-MacBook-Pro:constrvct Mary$ open 
+Usage: open [-e] [-t] [-f] [-W] [-R] [-n] [-g] [-h] [-b <bundle identifier>] [-a <application>] [filenames] [--args arguments]
+Help: Open opens files from a shell.
+      By default, opens each file using the default application for that file.  
+      If the file is in the form of a URL, the file will be opened as a URL.
+Options: 
+      -a                Opens with the specified application.
+      -b                Opens with the specified application bundle identifier.
+      -e                Opens with TextEdit.
+      -t                Opens with default text editor.
+      -f                Reads input from standard input and opens with TextEdit.
+      -F  --fresh       Launches the app fresh, that is, without restoring windows. Saved persistent state is lost, excluding Untitled documents.
+      -R, --reveal      Selects in the Finder instead of opening.
+      -W, --wait-apps   Blocks until the used applications are closed (even if they were already running).
+          --args        All remaining arguments are passed in argv to the application's main() function instead of opened.
+      -n, --new         Open a new instance of the application even if one is already running.
+      -j, --hide        Launches the app hidden.
+      -g, --background  Does not bring the application to the foreground.
+      -h, --header      Searches header file locations for headers matching the given filenames, and opens them.
+Mary-Huangs-MacBook-Pro:constrvct Mary$ open .
+Mary-Huangs-MacBook-Pro:constrvct Mary$ rake -T
+rake about              # List versions of all Rails frameworks and the environment
+rake assets:clean       # Remove compiled assets
+rake assets:precompile  # Compile all the assets named in config.assets.precompile
+rake db:create          # Create the database from config/database.yml for the current Rails.env (use db:create:all to create all dbs in the config)
+rake db:drop            # Drops the database for the current Rails.env (use db:drop:all to drop all databases)
+rake db:fixtures:load   # Load fixtures into the current environment's database.
+rake db:migrate         # Migrate the database (options: VERSION=x, VERBOSE=false).
+rake db:migrate:status  # Display status of migrations
+rake db:rollback        # Rolls the schema back to the previous version (specify steps w/ STEP=n).
+rake db:schema:dump     # Create a db/schema.rb file that can be portably used against any DB supported by AR
+rake db:schema:load     # Load a schema.rb file into the database
+rake db:seed            # Load the seed data from db/seeds.rb
+rake db:setup           # Create the database, load the schema, and initialize with the seed data (use db:reset to also drop the db first)
+rake db:structure:dump  # Dump the database structure to db/structure.sql. Specify another file with DB_STRUCTURE=db/my_structure.sql
+rake db:version         # Retrieves the current schema version number
+rake doc:app            # Generate docs for the app -- also available doc:rails, doc:guides, doc:plugins (options: TEMPLATE=/rdoc-template.rb, TIT...
+rake log:clear          # Truncates all *.log files in log/ to zero bytes
+rake middleware         # Prints out your Rack middleware stack
+rake notes              # Enumerate all annotations (use notes:optimize, :fixme, :todo for focus)
+rake notes:custom       # Enumerate a custom annotation, specify with ANNOTATION=CUSTOM
+rake rails:template     # Applies the template supplied by LOCATION=(/path/to/template) or URL
+rake rails:update       # Update configs and some other initially generated files (or use just update:configs, update:scripts, or update:applicati...
+rake routes             # Print out all defined routes in match order, with names.
+rake secret             # Generate a cryptographically secure secret key (this is typically used to generate a secret for cookie sessions).
+rake stats              # Report code statistics (KLOCs, etc) from the application
+rake test               # Runs test:units, test:functionals, test:integration together (also available: test:benchmark, test:profile, test:plugins)
+rake test:recent        # Run tests for {:recent=>"test:prepare"} / Test recent changes
+rake test:single        # Run tests for {:single=>"test:prepare"}
+rake test:uncommitted   # Run tests for {:uncommitted=>"test:prepare"} / Test changes since last checkin (only Subversion and Git)
+rake time:zones:all     # Displays all time zones, also available: time:zones:us, time:zones:local -- filter with OFFSET parameter, e.g., OFFSET=-6
+rake tmp:clear          # Clear session, cache, and socket files from tmp/ (narrow w/ tmp:sessions:clear, tmp:cache:clear, tmp:sockets:clear)
+rake tmp:create         # Creates tmp directories for sessions, cache, sockets, and pids
+Mary-Huangs-MacBook-Pro:constrvct Mary$ rake db:migrate
+==  AddPreviewToDesign: migrating =============================================
+-- add_column(:designs, :preview, :string)
+   -> 0.0558s
+==  AddPreviewToDesign: migrated (0.0559s) ====================================
+
+Mary-Huangs-MacBook-Pro:constrvct Mary$ git status
+# On branch master
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   .gitignore
+#	modified:   app/models/form.rb
+#	modified:   app/models/user.rb
+#	modified:   app/views/layouts/application.html.erb
+#	modified:   config/routes.rb
+#	modified:   db/schema.rb
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	app/assets/javascripts/designs.js.coffee
+#	app/assets/javascripts/textures.js.coffee
+#	app/assets/stylesheets/designs.css.scss
+#	app/assets/stylesheets/textures.css.scss
+#	app/controllers/designs_controller.rb
+#	app/controllers/textures_controller.rb
+#	app/controllers/users_controller.rb
+#	app/helpers/designs_helper.rb
+#	app/helpers/textures_helper.rb
+#	app/models/design.rb
+#	app/models/texture.rb
+#	app/views/designs/
+#	app/views/textures/
+#	app/views/users/
+#	db/migrate/20120620043004_create_textures.rb
+#	db/migrate/20120620044343_create_designs.rb
+#	db/migrate/20120620050556_add_preview_to_design.rb
+#	test/fixtures/designs.yml
+#	test/fixtures/textures.yml
+#	test/functional/designs_controller_test.rb
+#	test/functional/textures_controller_test.rb
+#	test/unit/design_test.rb
+#	test/unit/helpers/designs_helper_test.rb
+#	test/unit/helpers/textures_helper_test.rb
+#	test/unit/texture_test.rb
+no changes added to commit (use "git add" and/or "git commit -a")
+Mary-Huangs-MacBook-Pro:constrvct Mary$ github
+Mary-Huangs-MacBook-Pro:constrvct Mary$ 
