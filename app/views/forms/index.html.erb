@@ -1,0 +1,26 @@
+<h1>Listing forms</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Thumbnail</th>
+    <th>Mesh</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @forms.each do |form| %>
+  <tr>
+	<td><%= link_to form.name, form %></td>
+    <td><%= image_tag form.thumbnail %></td>
+    <td><%= form.mesh.file.filename %></td>
+    
+    <td><%= link_to 'Edit', edit_form_path(form) %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Form', new_form_path %>

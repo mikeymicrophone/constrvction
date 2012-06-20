@@ -1,0 +1,18 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b><%= @form.name %></b>
+</p>
+
+<p>
+  <%= image_tag @form.thumbnail %>
+</p>
+
+<p>
+  <b>Mesh:</b>
+  <%= @form.mesh.file.filename %>
+</p>
+
+
+<%= link_to 'Edit', edit_form_path(@form) %> |
+<%= link_to 'Back', forms_path %>
