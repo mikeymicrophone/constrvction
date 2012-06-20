@@ -12,7 +12,6 @@ var renderw = 400;
 var renderh = 555;
 var mousex, mousey, pmousex, pmousey, dx, dy;
 
-
 function load(model, img) {
 
 	scene = new THREE.Scene();
@@ -57,11 +56,10 @@ function load(model, img) {
 
 	// RENDERER
 
-	renderer = new THREE.WebGLRenderer();
+	renderer = new THREE.WebGLRenderer( { antialias: true, preserveDrawingBuffer : true } );
 	renderer.setSize(renderw, renderh);
 	renderer.domElement.id = "GL";
 	container.appendChild(renderer.domElement);
-
 }
 
 function refresh(model, img) {

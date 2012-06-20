@@ -1,38 +1,77 @@
-<%= form_for Texture.new, :remote => true do |f| %>
-  <%= f.file_field :image %>
-  <%= f.submit 'Upload image' %>
-<% end %>
+<div id="main-container">
 
-<div id="render-container">
-  
-</div>
-
-<% Form.all.each do |style| %>
-  <div class="style">
-    <%= image_tag style.thumbnail.thumb, :'data-mesh-file' => style.mesh %>
+  <div id="message">
+    Ready to constrvct your garment?  Choose a cut and upload or choose an image.
   </div>
-<% end %>
+  
+  <%= form_for Texture.new, :remote => true, :id => 'texture-upload' do |f| %>
+    <%= f.file_field :image %>
+    <%= f.submit 'Upload image' %>
+  <% end %>
 
-<%= content_for :scripts do %>
-  <%= javascript_include_tag 'Three/Three', 'Three/OBJLoader', 'Three/Detector', 'Three/Stats' %>
-  <script type="text/javascript">
-    var selected_style_mesh;
-    function adopt_image(image) {
-      init3DBuild(selected_style_mesh, image);
-    }
-    
-    function selected_style_mesh() {
-      $('.style.selected img').data('mesh-file');
-    }
-    
-    $(function() {
-      selected_style_mesh = $('.style img').first().data('mesh-file');
+  <div id="render-container">
+  
+  </div>
+
+  <%= form_for Design.new, :remote => true, :id => 'design-save' do |f| %>
+    <%= f.hidden_field :texture_id, :id => 'design-texture' %>
+    <%= f.hidden_field :form_id, :id => 'design-form' %>
+    <%= f.hidden_field :image_data, :id => 'design-preview' %>
+    <%= f.submit 'Save this design!', :id => 'save-button', :style => 'display:none' %>
+  <% end %>
+
+  <div id="style-picker">
+    <% Form.all.each do |style| %>
+      <div class="style">
+        <%= image_tag style.thumbnail, :'data-mesh-file' => style.mesh, :'data-form-id' => style.id %>
+      </div>
+    <% end %>
+  </div>
+  <div id="texture-picker">
+  <% @textures.each do |texture| %>
+      <%= image_tag texture.image.square, :'data-texture-id' => texture.id, :width => 100, :class=>"texture-option" %></td>
+  <% end %>
+  </div>
+
+  <%= content_for :scripts do %>
+    <%= javascript_include_tag 'Three/Three', 'Three/OBJLoader', 'Three/Detector', 'Three/Stats' %>
+    <script type="text/javascript">
+      var selected_style_mesh;
       
-      $('.style img').click(function() {
-        $('.selected').removeClass('selected');
-        $(this).addClass('selected');
-        selected_style_mesh = $(this).data('mesh-file');
+      function adopt_image(image, texture_id) {
+        refresh(selected_style_mesh, image);
+        $('#design-texture').val(texture_id);
+        show_save_button();
+      }
+      
+      function show_save_button() {
+        $('#save-button').show();
+      }
+    
+      function selected_style_mesh() {
+        $('.style.selected img').data('mesh-file');
+      }
+    
+      $(function() {
+        $('.style img').click(function() {
+          $('.selected').removeClass('selected');
+          $(this).addClass('selected');
+          $('#design-form').val($(this).data('form-id'));
+          selected_style_mesh = $(this).data('mesh-file');
+        });
+        
+        $('.texture-option').click(function() {
+          adopt_image(this.src , $(this).data('texture-id') );
+        })
+        
+        $('#save-button').click(function() {
+          $('#design-preview').val($('#GL')[0].toDataURL("image/png"));
+          open().document.write('<img src="'+$('#GL')[0].toDataURL("image/png")+'"/>');
+        })
+        
+        $('.style img').first().click();
+        init3DBuild(selected_style_mesh, $($('.texture-option')[0]).attr('src') );
       });
-    });
-  </script>
-<% end %>
+    </script>
+  <% end %>
+</div>

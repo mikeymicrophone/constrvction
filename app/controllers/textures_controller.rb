@@ -1,4 +1,5 @@
 class TexturesController < ApplicationController
+  
   # GET /textures
   # GET /textures.json
   def index

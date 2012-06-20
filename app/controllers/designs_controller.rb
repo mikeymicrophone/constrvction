@@ -1,5 +1,8 @@
 class DesignsController < ApplicationController
+  skip_before_filter :authenticate_user!, :only=>[:index]
+  
   def constrvct
+    @textures = Texture.limit(20)
     
   end
   
@@ -46,6 +49,14 @@ class DesignsController < ApplicationController
   def create
     @design = Design.new(params[:design])
     @design.user = current_user
+    
+    temp_file_name = Rails.root.join('tmp', "preview#{@design.texture_id}.png")
+    
+    File.open(temp_file_name, 'wb') do |f|
+      f.write Base64.decode64 @design.image_data.gsub(/^data:image\/(png|jpg)\;base64,/, "")
+    end
+    
+    @design.preview = File.open(temp_file_name)
 
     respond_to do |format|
       if @design.save

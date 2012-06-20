@@ -12,6 +12,7 @@
 
 <% @designs.each do |design| %>
   <tr>
+    <td><%= image_tag design.preview %></td>
     <td><%= design.form.mesh %></td>
     <td><%= design.texture.image %></td>
     <td><%= design.user.username %></td>
@@ -24,4 +25,4 @@
 
 <br />
 
-<%= link_to 'New Design', new_design_path %>
+<%= link_to 'New Design', root_path %>
