@@ -9,6 +9,7 @@ gem 'mysql2'
 gem 'devise'
 gem 'carrierwave'
 gem 'mini_magick'
+gem 'remotipart'
 
 
 # Gems used only for assets and not required

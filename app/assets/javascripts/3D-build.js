@@ -118,7 +118,6 @@ function init3DBuild(obj, img){
 	mouseIsOver = false;
 	
 	container = document.getElementById("render-container");
-	console.log(container);
 
 	load(obj,img);
 	animate();

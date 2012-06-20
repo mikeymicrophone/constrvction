@@ -9,7 +9,7 @@ Constrvct::Application.routes.draw do
   
   resources :users, :only => [:show]
 
-  root :to => "designs#index"
+  root :to => "designs#constrvct"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

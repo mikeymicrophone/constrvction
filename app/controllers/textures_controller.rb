@@ -44,6 +44,7 @@ class TexturesController < ApplicationController
 
     respond_to do |format|
       if @texture.save
+        format.js
         format.html { redirect_to @texture, notice: 'Texture was successfully created.' }
         format.json { render json: @texture, status: :created, location: @texture }
       else

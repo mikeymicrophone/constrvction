@@ -1,0 +1,38 @@
+<%= form_for Texture.new, :remote => true do |f| %>
+  <%= f.file_field :image %>
+  <%= f.submit 'Upload image' %>
+<% end %>
+
+<div id="render-container">
+  
+</div>
+
+<% Form.all.each do |style| %>
+  <div class="style">
+    <%= image_tag style.thumbnail.thumb, :'data-mesh-file' => style.mesh %>
+  </div>
+<% end %>
+
+<%= content_for :scripts do %>
+  <%= javascript_include_tag 'Three/Three', 'Three/OBJLoader', 'Three/Detector', 'Three/Stats' %>
+  <script type="text/javascript">
+    var selected_style_mesh;
+    function adopt_image(image) {
+      init3DBuild(selected_style_mesh, image);
+    }
+    
+    function selected_style_mesh() {
+      $('.style.selected img').data('mesh-file');
+    }
+    
+    $(function() {
+      selected_style_mesh = $('.style img').first().data('mesh-file');
+      
+      $('.style img').click(function() {
+        $('.selected').removeClass('selected');
+        $(this).addClass('selected');
+        selected_style_mesh = $(this).data('mesh-file');
+      });
+    });
+  </script>
+<% end %>

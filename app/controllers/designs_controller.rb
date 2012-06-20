@@ -1,4 +1,8 @@
 class DesignsController < ApplicationController
+  def constrvct
+    
+  end
+  
   # GET /designs
   # GET /designs.json
   def index

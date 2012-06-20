@@ -12,9 +12,9 @@
 
 <% @designs.each do |design| %>
   <tr>
-    <td><%= design.form %></td>
-    <td><%= design.texture %></td>
-    <td><%= design.user %></td>
+    <td><%= design.form.mesh %></td>
+    <td><%= design.texture.image %></td>
+    <td><%= design.user.username %></td>
     <td><%= link_to 'Show', design %></td>
     <td><%= link_to 'Edit', edit_design_path(design) %></td>
     <td><%= link_to 'Destroy', design, method: :delete, data: { confirm: 'Are you sure?' } %></td>
