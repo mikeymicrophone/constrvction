@@ -8,8 +8,13 @@
 </head>
 <body>
 	<p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+  <p class="alert"><%= alert %></p>
 
+  <nav>
+    <%= link_to 'designs', designs_path %>
+    <%= link_to 'forms', forms_path %>
+    <%= link_to 'textures', textures_path %>
+  </nav>
 <%= yield %>
 
 </body>

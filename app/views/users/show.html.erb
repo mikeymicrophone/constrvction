@@ -1,0 +1,14 @@
+<p>
+  <%= @user.username %>
+</p>
+<p>
+  <%= @user.email %>
+</p>
+
+<div id="designs">
+  <header>My Designs</header>
+  <% @user.designs.each do |design| %>
+    <%= image_tag design.texture.image, :width => 200 %>
+    <%= image_tag design.form.thumbnail, :width => 200 %>
+  <% end %>
+</div>

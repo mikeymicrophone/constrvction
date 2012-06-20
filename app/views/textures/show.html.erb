@@ -1,0 +1,13 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b><%= @texture.name %></b>
+</p>
+
+<p>
+  <%= image_tag @texture.image, :width => 200 %>
+</p>
+
+
+<%= link_to 'Edit', edit_texture_path(@texture) %> |
+<%= link_to 'Back', textures_path %>

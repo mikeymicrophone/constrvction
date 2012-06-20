@@ -1,0 +1,24 @@
+<h1>Listing textures</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Image</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @textures.each do |texture| %>
+  <tr>
+    <td><%= link_to texture.name, texture %></td>
+    <td><%= image_tag texture.image, :width => 200 %></td>
+    <td><%= link_to 'Edit', edit_texture_path(texture) %></td>
+    <td><%= link_to 'Destroy', texture, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Texture', new_texture_path %>

@@ -11,12 +11,32 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120620035712) do
+ActiveRecord::Schema.define(:version => 20120620050556) do
+
+  create_table "designs", :force => true do |t|
+    t.integer  "form_id"
+    t.integer  "texture_id"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.string   "preview"
+  end
+
+  add_index "designs", ["form_id"], :name => "index_designs_on_form_id"
+  add_index "designs", ["texture_id"], :name => "index_designs_on_texture_id"
+  add_index "designs", ["user_id"], :name => "index_designs_on_user_id"
 
   create_table "forms", :force => true do |t|
     t.string   "name"
     t.string   "thumbnail"
     t.string   "mesh"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "textures", :force => true do |t|
+    t.string   "name"
+    t.string   "image"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

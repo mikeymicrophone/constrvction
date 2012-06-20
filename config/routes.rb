@@ -1,7 +1,13 @@
 Constrvct::Application.routes.draw do
+  resources :designs
+
+  resources :textures
+
   resources :forms
 
   devise_for :users
+  
+  resources :users, :only => [:show]
 
   root :to => "home#index"
   # The priority is based upon order of creation:
