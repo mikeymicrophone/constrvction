@@ -3,7 +3,7 @@ class DesignsController < ApplicationController
   
   def constrvct
     @textures = Texture.limit(20)
-    
+    @designs = Design.limit(20)
   end
   
   # GET /designs

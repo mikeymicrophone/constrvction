@@ -8,6 +8,10 @@
     <%= f.file_field :image %>
     <%= f.submit 'Upload image' %>
   <% end %>
+  
+  <div id="uploaded-preview">
+    
+  </div>
 
   <div id="render-container">
   
@@ -29,7 +33,16 @@
   </div>
   <div id="texture-picker">
   <% @textures.each do |texture| %>
-      <%= image_tag texture.image.square, :'data-texture-id' => texture.id, :width => 100, :class=>"texture-option" %></td>
+      <%= image_tag texture.image.square, :'data-texture-id' => texture.id, :width => 100, :class=>"texture-option" %>
+  <% end %>
+  </div>
+  
+  <div id="recent-designs">
+  <% @designs.each do |design| %>
+    <div class="recent-design-group">
+      <%= image_tag design.preview, :width => 100, :class =>'recent-design', :'data-mesh-file' => design.form.mesh, :'data-form-id' => design.form.id, :'data-texture-file' => design.texture.image.square, :'data-texture-id' => design.texture.id  %>
+      <%= design.user.username %>
+    </div>  
   <% end %>
   </div>
 
@@ -54,20 +67,28 @@
     
       $(function() {
         $('.style img').click(function() {
-          $('.selected').removeClass('selected');
+          $('.style .selected').removeClass('selected');
           $(this).addClass('selected');
           $('#design-form').val($(this).data('form-id'));
           selected_style_mesh = $(this).data('mesh-file');
         });
         
-        $('.texture-option').click(function() {
+        $('.texture-option').live('click', function() {
           adopt_image(this.src , $(this).data('texture-id') );
+        });
+        
+        $('.recent-design').live('click', function() {
+          $('.recent-designs .recent-design-group .selected').removeClass('selected');
+          $(this).addClass('selected');
+          
+          $('#design-form').val($(this).data('form-id'));
+          selected_style_mesh = $(this).data('mesh-file');
+          adopt_image($(this).data('texture-file') , $(this).data('texture-id') );
         })
         
         $('#save-button').click(function() {
           $('#design-preview').val($('#GL')[0].toDataURL("image/png"));
-          open().document.write('<img src="'+$('#GL')[0].toDataURL("image/png")+'"/>');
-        })
+        });
         
         $('.style img').first().click();
         init3DBuild(selected_style_mesh, $($('.texture-option')[0]).attr('src') );
