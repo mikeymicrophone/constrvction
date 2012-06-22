@@ -10,19 +10,32 @@
     
     <div id="render-container">
     </div>
+    
+    <%= form_for Design.new, :remote => true, :id => 'design-save' do |f| %>
+      <%= f.hidden_field :texture_id, :id => 'design-texture' %>
+      <%= f.hidden_field :form_id, :id => 'design-form' %>
+      <%= f.hidden_field :image_data, :id => 'design-preview' %>
+      <!--
+      <%= f.submit 'Save this design!', :id => 'save-button', :style => 'display:none' %>
+      -->
+      <a class="button" id="save-button" style="display:none;"> SAVE YOUR LOOK </a>
+    <% end %>
   </div>
   
   <div id="artwork">
     <h3>Add Artwork</h3>
     
     <%= form_for Texture.new, :remote => true, :id => 'texture-upload' do |f| %>
-        <%= f.file_field :image %>
+        <a class="button" id="upload-button"> Upload </a>
+        <span>Use your own photo or image</span>
+        <%= f.file_field :image, :style => 'display:none' %>
         <br />
-        <a href="#" class="button" id="upload-image-button" style="display:none;"> Upload Image </a>
+        <a class="button" id="upload-image-button" style="display:none;"> Upload Image </a>
         <!--
         <%= f.submit 'Upload image', :id => 'upload-image-button', :style => 'display:none' %>
         -->
       <% end %>
+      
     
     <div id="available-artwork">
       <div id="texture-picker">
@@ -32,13 +45,6 @@
       </div>
     </div>
   </div>
-
-  <%= form_for Design.new, :remote => true, :id => 'design-save' do |f| %>
-    <%= f.hidden_field :texture_id, :id => 'design-texture' %>
-    <%= f.hidden_field :form_id, :id => 'design-form' %>
-    <%= f.hidden_field :image_data, :id => 'design-preview' %>
-    <%= f.submit 'Save this design!', :id => 'save-button', :style => 'display:none' %>
-  <% end %>
 
   <div id="available-designs">
     <h3>Recent Constrvcts</h3>
@@ -84,10 +90,19 @@
       $(function() {
         $("#texture_image").on('change', function() {
           if ($("#texture_image").val() != "") {
-            $("#upload-image-button").show();
+            //$("#upload-image-button").show();
+            $('#new_texture span').html($("#texture_image").val());
+            console.log('upload texture');
+            $('#new_texture').submit();
           } else {
-            $("#upload-image-button").hide();
+            $('#new_texture span').html('Use your own photo or image');
+            //$("#upload-image-button").hide();
           }
+        })
+        
+        $("#upload-button").click(function(){
+          console.log('upload clicked');
+          $("#texture_image").click();
         })
         
         $('.style img').click(function() {
@@ -120,6 +135,7 @@
         });
         
         $('#save-button').click(function() {
+      
           var designrender = $('#GL')[0].toDataURL("image/png");
           $('#design-preview').val(designrender);
           var designdiv = document.createElement('div');
@@ -134,8 +150,7 @@
           designdiv.appendChild(newdesign);
           $("#my-closet").prepend(designdiv);
           
-          
-          
+          $("#new_design").submit();
         });
         
         $('.style img').first().addClass('selected');

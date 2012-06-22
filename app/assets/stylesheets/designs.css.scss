@@ -38,7 +38,33 @@ $light-grey: rgb(200,200,200);
 
 .style {
   display: inline-block;
+}
+#new_design {
+  position: absolute;
+  bottom: 20px;
+  left: 40px;
+  left: 66px
+}
 
+#save-button{
+  font-size: 18px;
+  //padding: 7px 50px;
+  padding: 7px 45px;
+}
+#save-button:hover {
+  border: 5px double black;
+  background: white;
+  color: black;
+  padding: 2px 40px;
+ 
+  //transition: color .5s, background .6s;
+  //-moz-transition: color .5s, background .6s;
+  //-webkit-transition: color .5s, background .6s;
+  //-o-transition: color .5s, background .6s; 
+
+}
+#save-button:active {
+  background: $highlight;
 }
 
 h3 {
