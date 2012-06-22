@@ -19,14 +19,17 @@
     <%= link_to 'Textures', textures_path %>
     </div>
   <% end %>
-
+  
+  <div id="top">
   <h1 id="logotype">CONSTRVCT</h1>
+  </div>
+  
   <nav id="main-nav">
     <%= link_to 'Constrvct Your Look', root_path %>
+    <div id="my-closet"></div>
+    
     <% if current_user %>
       <%= link_to 'My Closet', current_user %>
-      <div id="my-closet">
-      </div>
     <% end %>
      
     <%= link_to 'All Constrvcts', designs_path %>

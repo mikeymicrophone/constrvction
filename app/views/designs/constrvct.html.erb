@@ -40,13 +40,16 @@
     <%= f.submit 'Save this design!', :id => 'save-button', :style => 'display:none' %>
   <% end %>
 
+  <div id="available-designs">
+    <h3>Recent Constrvcts</h3>
   <div id="recent-designs">
   <% @designs.each do |design| %>
     <div class="recent-design-group">
       <%= image_tag design.preview, :width => 100, :class =>'recent-design', :'data-mesh-file' => design.form.mesh, :'data-form-id' => design.form.id, :'data-texture-file' => design.texture.image.square, :'data-texture-id' => design.texture.id  %>
-      by <%= link_to design.user.username, design.user %>
+      <span>by <%= link_to design.user.username, design.user %></span>
     </div>  
   <% end %>
+  </div>
   </div>
 
   <%= content_for :scripts do %>
@@ -62,6 +65,15 @@
       }
       function update_design() {
         refresh(selected_style_mesh, selected_texture);
+        show_save_button();
+      }
+      
+      function update_texture(file) {
+        changeTexture(file);
+        show_save_button();
+      }
+      function update_style() {
+        changeModel(selected_style_mesh);
         show_save_button();
       }
       
@@ -83,7 +95,7 @@
           $(this).addClass('selected');
           $('#design-form').val($(this).data('form-id'));
           selected_style_mesh = $(this).data('mesh-file');
-          update_design();
+          update_style();
         });
         
         $('.texture-option').live('click', function() {
@@ -91,21 +103,27 @@
           $(this).addClass('selected-texture');
           selected_texture = this.src;
           $('#design-texture').val($(this).data('texture-id'));
-          update_design();
+          update_texture(selected_texture);
         });
         
         $('.recent-design').live('click', function() {
           $('selected-design').removeClass('selected-design');
           $(this).parent().addClass('selected-design');
-          
-          $('#design-form').val($(this).data('form-id'));
           selected_style_mesh = $(this).data('mesh-file');
-          adopt_image($(this).data('texture-file') , $(this).data('texture-id') );
+          
+          if ($(this).data('form-id') != $('#design-form').val()) {
+            $('#design-form').val($(this).data('form-id'));
+            adopt_image($(this).data('texture-file') , $(this).data('texture-id') );
+          } else {
+            update_texture($(this).data('texture-file') );
+          }
         });
         
         $('#save-button').click(function() {
           var designrender = $('#GL')[0].toDataURL("image/png");
           $('#design-preview').val(designrender);
+          var designdiv = document.createElement('div');
+          designdiv.setAttribute('class', 'recent-design-group');
           var newdesign = document.createElement("img");  
           newdesign.src = designrender;
           newdesign.setAttribute('class','recent-design');
@@ -113,7 +131,8 @@
           newdesign.setAttribute('data-texture-file', selected_texture);
           newdesign.setAttribute('data-mesh-file', selected_style_mesh);
           newdesign.setAttribute('data-form-id', $('#design-form').val());
-          $("#my-closet").prepend(newdesign);
+          designdiv.appendChild(newdesign);
+          $("#my-closet").prepend(designdiv);
           
           
           

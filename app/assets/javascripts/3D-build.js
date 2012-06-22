@@ -11,6 +11,7 @@ var windowHalfY = window.innerHeight / 2;
 var renderw = 400;
 var renderh = 555;
 var mousex, mousey, pmousex, pmousey, dx, dy;
+var texture;
 
 function load(model, img) {
 
@@ -33,7 +34,7 @@ function load(model, img) {
 	//.normalize();
 	scene.add(directionalLight2);
 
-	var texture = THREE.ImageUtils.loadTexture(img);
+	texture = THREE.ImageUtils.loadTexture(img);
 
 	holder = new THREE.Object3D();
 	scene.add(holder);
@@ -60,6 +61,58 @@ function load(model, img) {
 	renderer.setSize(renderw, renderh);
 	renderer.domElement.id = "GL";
 	container.appendChild(renderer.domElement);
+}
+
+function changeTexture(img){
+	texture = THREE.ImageUtils.loadTexture(img);
+	/*
+	scene.remove(holder);
+	holder = new THREE.Object3D();
+	
+	
+	var loader = new THREE.OBJLoader();
+	loader.load(model, function(object) {
+
+		for(var i = 0, l = object.children.length; i < l; i++) {
+
+			object.children[i].material.map = texture;
+			object.children[i].doubleSided = true;
+		}
+
+		object.position.y = 0;
+		object.scale.set(5, 5, 5);
+
+		holder.add(object);
+	});
+	scene.add(holder);
+	*/
+	
+	for(var i = 0, l = holder.children[0].children.length; i < l; i++) {
+
+		holder.children[0].children[i].material.map = texture;
+		holder.children[0].children[i].doubleSided = true;
+	}
+}
+
+function changeModel(model) {
+	scene.remove(holder);
+	holder = new THREE.Object3D();
+	
+	var loader = new THREE.OBJLoader();
+	loader.load(model, function(object) {
+
+		for(var i = 0, l = object.children.length; i < l; i++) {
+
+			object.children[i].material.map = texture;
+			object.children[i].doubleSided = true;
+		}
+
+		object.position.y = 0;
+		object.scale.set(5, 5, 5);
+
+		holder.add(object);
+	});
+	scene.add(holder);
 }
 
 function refresh(model, img) {

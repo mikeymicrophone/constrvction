@@ -21,6 +21,7 @@ $highlight: #F3FF9E;
 
 body {
 	background-size: 100% 100%;
+	background: rgb(250,250,250);
 }
 a {
 	text-decoration: none;
@@ -38,6 +39,10 @@ a:visited{
 	-moz-box-shadow:    $val $val $val $val #ccc;
 	-webkit-box-shadow: $val $val $val $val #ccc;
 	box-shadow:         $val $val $val $val #ccc;
+}
+
+#top{
+margin-bottom:15px;
 }
 
 #logotype {
