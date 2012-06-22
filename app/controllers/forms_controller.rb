@@ -1,4 +1,6 @@
 class FormsController < ApplicationController
+  skip_before_filter :authenticate_user!
+  before_filter :authenticate_admin!
   # GET /forms
   # GET /forms.json
   def index

@@ -1,16 +1,18 @@
 class DesignsController < ApplicationController
-  skip_before_filter :authenticate_user!, :only=>[:index]
+  skip_before_filter :authenticate_user!, :only => [:index]
+  before_filter :authenticate_admin!, :only => [:edit, :update]
   
   def constrvct
-    @textures = Texture.limit(20)
-    @designs = Design.limit(20)
+    @textures = Texture.find(:all, :limit => 21, :order=> 'created_at desc')
+    @designs = Design.find(:all, :limit => 20, :order=> 'created_at desc')
   end
   
   # GET /designs
   # GET /designs.json
   def index
-    @designs = Design.all
-
+    #@designs = Design.all
+    @designs = Design.find(:all, :limit => 20, :order=> 'created_at desc')
+    
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @designs }

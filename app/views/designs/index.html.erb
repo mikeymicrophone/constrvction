@@ -1,4 +1,4 @@
-<h1>Listing designs</h1>
+<h1>Recent Constrvcts</h1>
 
 <table>
   <tr>
@@ -13,16 +13,18 @@
 <% @designs.each do |design| %>
   <tr>
     <td><%= image_tag design.preview %></td>
-    <td><%= design.form.mesh %></td>
-    <td><%= design.texture.image %></td>
-    <td><%= design.user.username %></td>
+    <td><%= image_tag design.form.thumbnail, :width => 200 %></td>
+    <td><%= image_tag design.texture.image, :width => 200 %></td>
+    <td><%= link_to design.user.username, design.user %></td>
     <td><%= link_to 'Show', design %></td>
-    <td><%= link_to 'Edit', edit_design_path(design) %></td>
-    <td><%= link_to 'Destroy', design, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <% if current_admin %>
+      <td><%= link_to 'Edit', edit_design_path(design) %></td>
+      <td><%= link_to 'Destroy', design, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <% end %>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Design', root_path %>
+<%= link_to 'New Constrvct', root_path %>

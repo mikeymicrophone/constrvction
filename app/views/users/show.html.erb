@@ -1,16 +1,20 @@
-<p>
+<h2>
   <%= @user.username %>
-</p>
+</h2>
+
+<% if current_admin %>
 <p>
   <%= @user.email %>
 </p>
+<% end %>
 
-<ul id="designs">
-  <header>My Designs</header>
+  <h2>My Constrvcts</h2>
   <% @user.designs.each do |design| %>
-    <li>
+    <div>
+      <%= image_tag design.preview, :width => 200 %>
+      <!--
       <%= image_tag design.texture.image, :width => 200 %>
       <%= image_tag design.form.thumbnail, :width => 200 %>
-    </li>
+      -->
+    </div>
   <% end %>
-</ul>

@@ -1,20 +1,36 @@
-<div id="main-container">
 
-  <div id="message">
-    Ready to constrvct your garment?  Choose a cut and upload or choose an image.
-  </div>
-  
-  <%= form_for Texture.new, :remote => true, :id => 'texture-upload' do |f| %>
-    <%= f.file_field :image %>
-    <%= f.submit 'Upload image' %>
-  <% end %>
-  
-  <div id="uploaded-preview">
+  <div id="main-design">
+    <div id="style-picker">
+      <% Form.all.each do |style| %>
+        <div class="style">
+          <%= image_tag style.thumbnail, :'data-mesh-file' => style.mesh, :'data-form-id' => style.id %>
+        </div>
+      <% end %>
+    </div>
     
+    <div id="render-container">
+    </div>
   </div>
-
-  <div id="render-container">
   
+  <div id="artwork">
+    <h3>Add Artwork</h3>
+    
+    <%= form_for Texture.new, :remote => true, :id => 'texture-upload' do |f| %>
+        <%= f.file_field :image %>
+        <br />
+        <a href="#" class="button" id="upload-image-button" style="display:none;"> Upload Image </a>
+        <!--
+        <%= f.submit 'Upload image', :id => 'upload-image-button', :style => 'display:none' %>
+        -->
+      <% end %>
+    
+    <div id="available-artwork">
+      <div id="texture-picker">
+      <% @textures.each do |texture| %>
+          <%= image_tag texture.image.square, :'data-texture-id' => texture.id, :width => 100, :class=>"texture-option" %>
+      <% end %>
+      </div>
+    </div>
   </div>
 
   <%= form_for Design.new, :remote => true, :id => 'design-save' do |f| %>
@@ -24,24 +40,11 @@
     <%= f.submit 'Save this design!', :id => 'save-button', :style => 'display:none' %>
   <% end %>
 
-  <div id="style-picker">
-    <% Form.all.each do |style| %>
-      <div class="style">
-        <%= image_tag style.thumbnail, :'data-mesh-file' => style.mesh, :'data-form-id' => style.id %>
-      </div>
-    <% end %>
-  </div>
-  <div id="texture-picker">
-  <% @textures.each do |texture| %>
-      <%= image_tag texture.image.square, :'data-texture-id' => texture.id, :width => 100, :class=>"texture-option" %>
-  <% end %>
-  </div>
-  
   <div id="recent-designs">
   <% @designs.each do |design| %>
     <div class="recent-design-group">
       <%= image_tag design.preview, :width => 100, :class =>'recent-design', :'data-mesh-file' => design.form.mesh, :'data-form-id' => design.form.id, :'data-texture-file' => design.texture.image.square, :'data-texture-id' => design.texture.id  %>
-      <%= design.user.username %>
+      by <%= link_to design.user.username, design.user %>
     </div>  
   <% end %>
   </div>
@@ -50,10 +53,15 @@
     <%= javascript_include_tag 'Three/Three', 'Three/OBJLoader', 'Three/Detector', 'Three/Stats' %>
     <script type="text/javascript">
       var selected_style_mesh;
+      var selected_texture;
       
       function adopt_image(image, texture_id) {
         refresh(selected_style_mesh, image);
         $('#design-texture').val(texture_id);
+        show_save_button();
+      }
+      function update_design() {
+        refresh(selected_style_mesh, selected_texture);
         show_save_button();
       }
       
@@ -61,38 +69,70 @@
         $('#save-button').show();
       }
     
-      function selected_style_mesh() {
-        $('.style.selected img').data('mesh-file');
-      }
-    
       $(function() {
+        $("#texture_image").on('change', function() {
+          if ($("#texture_image").val() != "") {
+            $("#upload-image-button").show();
+          } else {
+            $("#upload-image-button").hide();
+          }
+        })
+        
         $('.style img').click(function() {
           $('.style .selected').removeClass('selected');
           $(this).addClass('selected');
           $('#design-form').val($(this).data('form-id'));
           selected_style_mesh = $(this).data('mesh-file');
+          update_design();
         });
         
         $('.texture-option').live('click', function() {
-          adopt_image(this.src , $(this).data('texture-id') );
+          $('.selected-texture').removeClass('selected-texture');
+          $(this).addClass('selected-texture');
+          selected_texture = this.src;
+          $('#design-texture').val($(this).data('texture-id'));
+          update_design();
         });
         
         $('.recent-design').live('click', function() {
-          $('.recent-designs .recent-design-group .selected').removeClass('selected');
-          $(this).addClass('selected');
+          $('selected-design').removeClass('selected-design');
+          $(this).parent().addClass('selected-design');
           
           $('#design-form').val($(this).data('form-id'));
           selected_style_mesh = $(this).data('mesh-file');
           adopt_image($(this).data('texture-file') , $(this).data('texture-id') );
-        })
-        
-        $('#save-button').click(function() {
-          $('#design-preview').val($('#GL')[0].toDataURL("image/png"));
         });
         
-        $('.style img').first().click();
-        init3DBuild(selected_style_mesh, $($('.texture-option')[0]).attr('src') );
+        $('#save-button').click(function() {
+          var designrender = $('#GL')[0].toDataURL("image/png");
+          $('#design-preview').val(designrender);
+          var newdesign = document.createElement("img");  
+          newdesign.src = designrender;
+          newdesign.setAttribute('class','recent-design');
+          newdesign.setAttribute('data-texture-id', $('#design-texture').val());
+          newdesign.setAttribute('data-texture-file', selected_texture);
+          newdesign.setAttribute('data-mesh-file', selected_style_mesh);
+          newdesign.setAttribute('data-form-id', $('#design-form').val());
+          $("#my-closet").prepend(newdesign);
+          
+          
+          
+        });
+        
+        $('.style img').first().addClass('selected');
+        
+        $('#upload-image-button').click(function(){
+          console.log('upload texture');
+          $('#new_texture').submit();
+        });
+        
+        selected_style_mesh = $('.style .selected').data('mesh-file');
+        $('#design-form').val($('.style .selected').data('form-id'));
+        
+        selected_texture = $($('.texture-option')[0]).attr('src');
+        $('#design-texture').val($($('.texture-option')[0]).data('texture-id'));
+        
+        init3DBuild(selected_style_mesh, selected_texture );
       });
     </script>
   <% end %>
-</div>

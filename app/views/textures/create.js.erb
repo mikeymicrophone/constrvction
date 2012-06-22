@@ -1,3 +1,6 @@
 adopt_image('<%= @texture.image.square %>', <%= @texture.id %>);
 
-$("#uploaded-preview").append('<%= escape_javascript image_tag(@texture.image.square, :'data-texture-id' => @texture.id, :width => 100, :class=>"texture-option") %>');
+$('.selected-texture').removeClass('selected-texture');
+$("#texture-picker").prepend('<%= escape_javascript image_tag(@texture.image.square, :'data-texture-id' => @texture.id, :width => 100, :class=>"texture-option selected-texture") %>');
+
+selected_texture = '<%= @texture.image.square %>';

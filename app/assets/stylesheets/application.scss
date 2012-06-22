@@ -1,0 +1,102 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require_tree .
+ */
+
+*{
+	margin: 0px;
+	font-family: 'Tenor Sans', sans-serif;
+}
+
+$highlight: #F3FF9E;
+
+body {
+	background-size: 100% 100%;
+}
+a {
+	text-decoration: none;
+}
+a:visited{
+  color: black;
+}
+
+@mixin roundcorner($val) {
+	-moz-border-radius: $val;
+	border-radius: $val;
+}
+
+@mixin shadow($val) {
+	-moz-box-shadow:    $val $val $val $val #ccc;
+	-webkit-box-shadow: $val $val $val $val #ccc;
+	box-shadow:         $val $val $val $val #ccc;
+}
+
+#logotype {
+	font-family: 'Quicksand', sans-serif;
+	font-weight: normal;
+	font-size: 32px;
+	padding: 10px;
+}
+
+#main-container {
+	margin: auto auto;
+	width: 1024px;
+	background: white;
+}
+
+#admin-toolbar {
+	background: black;
+	color:white;
+	padding: 5px;
+}
+#admin-toolbar a{
+	color:white;
+}
+
+#main-nav{
+	font-size: 16px;
+	text-transform: uppercase;
+	float: left;
+}
+#main-nav a{
+	padding: 8px;
+	padding-top: 8px;
+	display: block;
+	width: 110px;
+	border-bottom: 2px solid black
+}
+
+#main-nav a:hover{
+  padding-top: 6px;
+  border-bottom: 4px solid black;
+  background-color: $highlight;
+}
+
+#registration{
+}
+
+.login-box {
+	width: 300px;
+	height: 300px;
+	float: left;
+}
+
+.button {
+	@include roundcorner(3px);
+	padding: 5px 10px;
+	background: black;
+	color: white;
+	display: inline-block;
+}
+a.button {
+  color:white;
+}

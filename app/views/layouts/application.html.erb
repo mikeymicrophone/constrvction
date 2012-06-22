@@ -1,32 +1,53 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Constrvct</title>
+  <title>CONSTRVCT</title>
+  <link href='http://fonts.googleapis.com/css?family=Quicksand|Tenor+Sans' rel='stylesheet' type='text/css'>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
   <%= yield :scripts %>
 </head>
 <body>
-	<p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
+	
 
-  <nav>
-    <%= link_to 'designs', designs_path %>
-    <%= link_to 'forms', forms_path %>
-    <%= link_to 'textures', textures_path %>
+  <% if current_admin %>
+  <div id="admin-toolbar">
+    Welcome Admin.
+    <%= link_to 'log out', destroy_admin_session_path, :method => :delete %>
+    <%= link_to 'Forms', forms_path %>
+    <%= link_to 'Textures', textures_path %>
+    </div>
+  <% end %>
+
+  <h1 id="logotype">CONSTRVCT</h1>
+  <nav id="main-nav">
+    <%= link_to 'Constrvct Your Look', root_path %>
+    <% if current_user %>
+      <%= link_to 'My Closet', current_user %>
+      <div id="my-closet">
+      </div>
+    <% end %>
+     
+    <%= link_to 'All Constrvcts', designs_path %>
+    
+    <nav id="registration">
+      <% if current_user %>
+        <%= link_to 'Log Out', destroy_user_session_path, :method=>:delete %>
+      <% else %>
+        <%= link_to 'Sign Up', new_user_registration_path %>
+        <%= link_to 'Sign In', new_user_session_path %>    
+      <% end %>
+    </nav>
+    
   </nav>
   
-  <nav id="registration">
-    <% if current_user %>
-      <%= link_to 'my account', current_user %>
-      <%= link_to 'log out', destroy_user_session_path, :method=>:delete %>
-    <% else %>
-      <%= link_to 'sign up', new_user_registration_path %>
-      <%= link_to 'sign in', new_user_session_path %>    
-    <% end %>
-  </nav>
+  <!--
+  <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p>
+  -->
+<div id="main-container">  
 <%= yield %>
-
+</div>
 </body>
 </html>

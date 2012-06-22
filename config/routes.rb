@@ -1,4 +1,6 @@
 Constrvct::Application.routes.draw do
+  devise_for :admins, :controllers => {:sessions => 'admin_sessions'}
+
   resources :designs
 
   resources :textures
