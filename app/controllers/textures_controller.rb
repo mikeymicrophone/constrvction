@@ -43,7 +43,8 @@ class TexturesController < ApplicationController
   # POST /textures.json
   def create
     @texture = Texture.new(params[:texture])
-
+    @texture.user = current_user
+    
     respond_to do |format|
       if @texture.save
         format.js

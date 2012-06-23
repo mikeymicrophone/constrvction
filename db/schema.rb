@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120622204012) do
+ActiveRecord::Schema.define(:version => 20120623020457) do
 
   create_table "admins", :force => true do |t|
     t.string   "username"
@@ -59,9 +59,13 @@ ActiveRecord::Schema.define(:version => 20120622204012) do
   create_table "textures", :force => true do |t|
     t.string   "name"
     t.string   "image"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.string   "user_id"
+    t.string   "description"
   end
+
+  add_index "textures", ["user_id"], :name => "index_textures_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "username"

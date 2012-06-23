@@ -14,7 +14,8 @@
     <%= image_tag @design.texture.image.thumbnail, :width => 100 %>
     <%= image_tag @design.form.thumbnail, :width => 100 %>
   </p>
-
+  <h4><span class="grey">artwork by </span> <%= link_to @design.texture.user.username, user_path(@design.texture.user) %></h4>
+  <h4><span class="grey">style: </span> <%= @design.form.name %></h4>
 </div>
 
 <% if current_admin %>  
