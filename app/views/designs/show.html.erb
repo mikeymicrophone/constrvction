@@ -4,24 +4,24 @@
   
 </div>
 
-<p>
-  <b>Form:</b>
-  <%= image_tag @design.form.thumbnail, :width => 200 %>
-</p>
+<div class="design-info">
+  <h3 class="design-title"><%= @design.title %></h3>
+  <h4><span class="grey">constrvcted by </span><%= link_to @design.user.username, user_path(@design.user) %></h4>
+  <p>
+   <%= @design.description %> 
+  </p>  
+  <p>
+    <%= image_tag @design.texture.image.thumbnail, :width => 100 %>
+    <%= image_tag @design.form.thumbnail, :width => 100 %>
+  </p>
 
-<p>
-  <b>Texture:</b>
-  <%= image_tag @design.texture.image, :width => 200 %>
-</p>
+</div>
 
-<p>
-  <b>User:</b>
-  <%= link_to @design.user.username, user_path(@design.user) %>
-</p>
-
-
+<% if current_admin %>  
 <%= link_to 'Edit', edit_design_path(@design) %> |
 <%= link_to 'Back', designs_path %>
+<% end %>
+
 
 <%= content_for :scripts do %>
   <%= javascript_include_tag 'Three/Three', 'Three/OBJLoader', 'Three/Detector', 'Three/Stats' %>

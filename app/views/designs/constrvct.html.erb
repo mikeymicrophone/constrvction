@@ -19,6 +19,9 @@
       <%= f.submit 'Save this design!', :id => 'save-button', :style => 'display:none' %>
       -->
       <a class="button" id="save-button" style="display:none;"> SAVE YOUR LOOK </a>
+      <div id="design-title" style="display:none;">
+      <%= f.text_field :title, :placeholder => 'Title Your Look' %>
+      </div>
     <% end %>
   </div>
   
@@ -85,6 +88,7 @@
       
       function show_save_button() {
         $('#save-button').show();
+        $('#design-title').show();
       }
     
       $(function() {
@@ -122,7 +126,7 @@
         });
         
         $('.recent-design').live('click', function() {
-          $('selected-design').removeClass('selected-design');
+          $('.selected-design').removeClass('selected-design');
           $(this).parent().addClass('selected-design');
           selected_style_mesh = $(this).data('mesh-file');
           

@@ -1,30 +1,31 @@
-<h1>Recent Constrvcts</h1>
-
-<table>
-  <tr>
-    <th>Form</th>
-    <th>Texture</th>
-    <th>User</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @designs.each do |design| %>
-  <tr>
-    <td><%= image_tag design.preview %></td>
-    <td><%= image_tag design.form.thumbnail, :width => 200 %></td>
-    <td><%= image_tag design.texture.image, :width => 200 %></td>
-    <td><%= link_to design.user.username, design.user %></td>
-    <td><%= link_to 'Show', design %></td>
-    <% if current_admin %>
-      <td><%= link_to 'Edit', edit_design_path(design) %></td>
-      <td><%= link_to 'Destroy', design, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-    <% end %>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
+<h2>Recent Constrvcts</h2>
 <%= link_to 'New Constrvct', root_path %>
+
+<div class="grid">
+<% @designs.each do |design| %>
+    <div class='grid-design-group'>
+      <div class='design-unit'>
+        <%= link_to design do %>
+          <%= image_tag design.preview.thumb200 %>
+        <% end %>
+        <div>
+        <h5><%= design.title %></h5>
+        <span> by <%= link_to design.user.username, design.user %></span>  
+        </div>
+      </div>
+      
+    <% if current_admin %>  
+      <div class="admin-unit">
+      <%= image_tag design.form.thumbnail, :width => 100 %>
+      <%= image_tag design.texture.image.thumbnail, :width => 100 %>
+
+      <%= link_to 'Edit', edit_design_path(design) %>
+      <%= link_to 'Destroy', design, method: :delete, data: { confirm: 'Are you sure?' } %>
+      </div>
+      <% end %>
+      
+    </div>
+<% end %>
+</div>
+
+
