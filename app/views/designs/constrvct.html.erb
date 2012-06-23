@@ -43,7 +43,7 @@
     <div id="available-artwork">
       <div id="texture-picker">
       <% @textures.each do |texture| %>
-          <%= image_tag texture.image.square, :'data-texture-id' => texture.id, :width => 100, :class=>"texture-option" %>
+          <%= image_tag texture.image.thumbnail, :'data-texture-id' => texture.id, :'data-img' => texture.image.square, :class=>"texture-option" %>
       <% end %>
       </div>
     </div>
@@ -120,7 +120,7 @@
         $('.texture-option').live('click', function() {
           $('.selected-texture').removeClass('selected-texture');
           $(this).addClass('selected-texture');
-          selected_texture = this.src;
+          selected_texture = $(this).data('img');
           $('#design-texture').val($(this).data('texture-id'));
           update_texture(selected_texture);
         });
@@ -167,7 +167,7 @@
         selected_style_mesh = $('.style .selected').data('mesh-file');
         $('#design-form').val($('.style .selected').data('form-id'));
         
-        selected_texture = $($('.texture-option')[0]).attr('src');
+        selected_texture = $($('.texture-option')[0]).data('img');
         $('#design-texture').val($($('.texture-option')[0]).data('texture-id'));
         
         init3DBuild(selected_style_mesh, selected_texture );

@@ -1,7 +1,8 @@
-
-
-
+<% if current_user %>  
   <h2>My Constrvcts</h2>
+<% else %>
+  <h2>Constrvcted by <%= @user.username %> </h2>
+<% end %>  
   
 <% if current_admin %>
 <p>

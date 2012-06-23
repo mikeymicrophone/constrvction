@@ -1,5 +1,6 @@
 <p id="notice"><%= notice %></p>
 
+<div class="grid">
 <div id="render-container">
   
 </div>
@@ -22,7 +23,21 @@
 <%= link_to 'Edit', edit_design_path(@design) %> |
 <%= link_to 'Back', designs_path %>
 <% end %>
-
+</div>
+<div class="grid">
+  <div class="width50">
+  <h3 class="underline">also by <%= link_to @design.user.username, user_path(@design.user) %></h3>
+  <% @design.user.designs.each do |userdesign| %>
+    <% if userdesign.id != @design.id %>
+      <div class='recent-design-group outline'>
+          <%= link_to userdesign do %>
+            <%= image_tag userdesign.preview.thumbnail %>
+          <% end %>
+      </div>
+    <% end %>
+  <% end %>
+  </div>
+</div>
 
 <%= content_for :scripts do %>
   <%= javascript_include_tag 'Three/Three', 'Three/OBJLoader', 'Three/Detector', 'Three/Stats' %>

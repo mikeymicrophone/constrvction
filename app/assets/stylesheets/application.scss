@@ -15,6 +15,7 @@
 *{
 	margin: 0px;
 	font-family: 'Tenor Sans', sans-serif;
+	font-weight: normal;
 }
 
 $highlight: #F3FF9E;
@@ -51,6 +52,10 @@ a:visited{
 
 #top{
 margin-bottom:15px;
+}
+
+h2 {
+  margin-left: 10px;
 }
 
 h4 {
@@ -129,4 +134,23 @@ a.button {
   position:relative;
   top:-3px;
   left: 3px;
+}
+
+.grid {
+  width: 1024px;
+  float: left;
+}
+
+.outline {
+  border: 1px solid $light-grey;
+}
+
+.width50 {
+  width: 50%;
+}
+
+.underline {
+  border-bottom: solid 2px black;
+  padding-bottom: 7px;
+  margin-bottom: 10px;
 }
