@@ -22,15 +22,15 @@ function load(model, img) {
 	camera.position.z = 100;
 	scene.add(camera);
 
-	var ambient = new THREE.AmbientLight(0x101030);
+	var ambient = new THREE.AmbientLight(0x0C0C0C);
 	scene.add(ambient);
 
-	var directionalLight = new THREE.DirectionalLight(0xffeedd);
+	var directionalLight = new THREE.DirectionalLight(0xD6D6D6);
 	directionalLight.position.set(70, 70, 100);
 	//.normalize();
 	scene.add(directionalLight);
 
-	var directionalLight2 = new THREE.DirectionalLight(0xDDDEFF);
+	var directionalLight2 = new THREE.DirectionalLight(0xD6D6D6);
 	directionalLight2.position.set(-70, 70, 100);
 	//.normalize();
 	scene.add(directionalLight2);
