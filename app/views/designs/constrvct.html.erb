@@ -171,6 +171,30 @@
         $('#design-texture').val($($('.texture-option')[0]).data('texture-id'));
         
         init3DBuild(selected_style_mesh, selected_texture );
+
+        
       });
+      
+      function putDrawing() {
+        var canvas = document.getElementById('drawing');
+        loadCanvas(canvas); 
+      }
+     
     </script>
   <% end %>
+<%= javascript_include_tag 'processingjs/processing-1.3.6.min.js' %>
+<script type="application/processing" >
+</script>
+<canvas id="drawing" data-processing-sources="/assets/ptest.pde" style="display:none;" ></canvas>
+
+<script>
+function stopDrawing() {
+  var processing = Processing.getInstanceById('drawing');
+  processing.noLoop();
+}
+function startDrawing() {
+  var processing = Processing.getInstanceById('drawing');
+  processing.loop();
+}
+
+</script>

@@ -12,6 +12,7 @@ var renderw = 400;
 var renderh = 555;
 var mousex, mousey, pmousex, pmousey, dx, dy;
 var texture;
+var canvastexture = false;
 
 function load(model, img) {
 
@@ -64,28 +65,20 @@ function load(model, img) {
 }
 
 function changeTexture(img){
+	canvastexture = false;
 	texture = THREE.ImageUtils.loadTexture(img);
-	/*
-	scene.remove(holder);
-	holder = new THREE.Object3D();
 	
-	
-	var loader = new THREE.OBJLoader();
-	loader.load(model, function(object) {
+	for(var i = 0, l = holder.children[0].children.length; i < l; i++) {
 
-		for(var i = 0, l = object.children.length; i < l; i++) {
+		holder.children[0].children[i].material.map = texture;
+		holder.children[0].children[i].doubleSided = true;
+	}
+}
 
-			object.children[i].material.map = texture;
-			object.children[i].doubleSided = true;
-		}
-
-		object.position.y = 0;
-		object.scale.set(5, 5, 5);
-
-		holder.add(object);
-	});
-	scene.add(holder);
-	*/
+function loadCanvas(canvas){
+	canvastexture = true;
+	texture = new THREE.Texture(canvas);
+	texture.needsUpdate = true;
 	
 	for(var i = 0, l = holder.children[0].children.length; i < l; i++) {
 
@@ -147,6 +140,9 @@ function getPositionTop(This) {
 function animate() {
 
 	requestAnimationFrame(animate);
+	if (canvastexture== true){
+		texture.needsUpdate = true;
+	}
 	render();
 }
 

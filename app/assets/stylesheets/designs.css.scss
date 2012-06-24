@@ -5,6 +5,19 @@
 $highlight: #F3FF9E;
 $light-grey: rgb(200,200,200);
 
+@mixin scale($val) {
+  transform-origin: top left;
+  -moz-transform-origin: top left;
+  -webkit-transform-origin: top left;
+  -o-transform-origin: top left;
+
+  transform:scale($val,$val);
+  -ms-transform:scale($val,$val);
+  -moz-transform:scale($val,$val);
+  -webkit-transform:scale($val,$val);
+  -o-transform: scale($val,$val);
+}
+
 #main-design {
   width: 400px;
   position:relative;
@@ -196,4 +209,11 @@ h3 {
 }
 .design-info p{
   margin-top: 20px;
+}
+
+#drawing {
+ @include scale(.5);
+ position: absolute;
+ top: 70px;
+ right:-500px;
 }
