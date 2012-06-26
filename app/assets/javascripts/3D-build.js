@@ -46,6 +46,8 @@ function load(model, img) {
 		for(var i = 0, l = object.children.length; i < l; i++) {
 
 			object.children[i].material.map = texture;
+			object.children[i].material.alphaTest = 0.5;
+			//console.log(object.children[i].material);
 			object.children[i].doubleSided = true;
 		}
 
