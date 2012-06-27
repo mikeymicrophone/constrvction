@@ -8,6 +8,7 @@ gem 'rails', '3.2.6'
 gem 'mysql2'
 gem 'devise'
 gem 'carrierwave'
+gem "fog", "~> 1.3.1"
 gem 'mini_magick'
 gem 'remotipart'
 
