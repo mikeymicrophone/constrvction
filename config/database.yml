@@ -1,6 +1,6 @@
 development:
   adapter: mysql2
-  database: constrvct_development
+  database: constrvct_development2
   username: root
   password: 
   host: localhost
