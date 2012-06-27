@@ -8,7 +8,7 @@ class FormsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @forms }
+      format.json { render :json => @forms }
     end
   end
 
@@ -19,7 +19,7 @@ class FormsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @form }
+      format.json { render :json => @form }
     end
   end
 
@@ -30,7 +30,7 @@ class FormsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @form }
+      format.json { render :json => @form }
     end
   end
 
@@ -46,11 +46,11 @@ class FormsController < ApplicationController
 
     respond_to do |format|
       if @form.save
-        format.html { redirect_to @form, notice: 'Form was successfully created.' }
-        format.json { render json: @form, status: :created, location: @form }
+        format.html { redirect_to @form, :notice => 'Form was successfully created.' }
+        format.json { render :json => @form, :status => :created, :location => @form }
       else
-        format.html { render action: "new" }
-        format.json { render json: @form.errors, status: :unprocessable_entity }
+        format.html { render :action => "new" }
+        format.json { render :json => @form.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -62,11 +62,11 @@ class FormsController < ApplicationController
 
     respond_to do |format|
       if @form.update_attributes(params[:form])
-        format.html { redirect_to @form, notice: 'Form was successfully updated.' }
+        format.html { redirect_to @form, :notice => 'Form was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
-        format.json { render json: @form.errors, status: :unprocessable_entity }
+        format.html { render :action => "edit" }
+        format.json { render :json => @form.errors, :status => :unprocessable_entity }
       end
     end
   end

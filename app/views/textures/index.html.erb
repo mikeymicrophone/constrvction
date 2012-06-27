@@ -9,7 +9,7 @@
     <td><%= image_tag texture.image.thumbnail %></td>
     <td><%= link_to texture.user.username, texture.user %></td>
     <td><%= link_to 'Edit', edit_texture_path(texture) %></td>
-    <td><%= link_to 'Destroy', texture, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= link_to 'Destroy', texture, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>
