@@ -1,8 +1,12 @@
 <% if current_user %>  
   <h2>My Constrvcts</h2>
+  <%= link_to 'Edit Profile', edit_user_registration_path(@user) %>
 <% else %>
   <h2>Constrvcted by <%= @user.username %> </h2>
 <% end %>  
+
+<%= image_tag @user.avatar.url(:medium) %>
+
   
 <% if current_admin %>
 <p>
