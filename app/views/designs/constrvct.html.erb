@@ -62,7 +62,10 @@
   </div>
 
   <%= content_for :scripts do %>
-    <%= javascript_include_tag 'Three/Three', 'Three/OBJLoader', 'Three/Detector', 'Three/Stats' %>
+    <script type="text/javascript" src="/assets/Three/Three.js">
+    <script type="text/javascript" src="/assets/Three/OBJLoader.js">
+    <script type="text/javascript" src="/assets/Three/Detector.js">
+    <script type="text/javascript" src="/assets/Three/Stats.js">
     <script type="text/javascript">
       var selected_style_mesh;
       var selected_texture;
