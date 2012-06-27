@@ -45,5 +45,5 @@ gem 'jquery-rails'
 
 # To use debugger
 group :development do
-  # gem 'debugger'
+  gem 'ruby-debug'
 end
