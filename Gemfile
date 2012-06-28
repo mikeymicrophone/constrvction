@@ -5,7 +5,6 @@ gem 'rails', '3.2.6'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'mysql2'
 gem 'devise'
 gem 'carrierwave'
 gem "fog", "~> 1.3.1"
@@ -45,5 +44,10 @@ gem 'jquery-rails'
 
 # To use debugger
 group :development do
-  gem 'ruby-debug'
+  gem 'mysql2'
+  gem 'debugger'
+end
+
+group :production do
+  gem 'pg'
 end
