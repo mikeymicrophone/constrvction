@@ -61,7 +61,7 @@ class DesignsController < ApplicationController
       f.write Base64.decode64 @design.image_data.gsub(/^data:image\/(png|jpg)\;base64,/, "")
     end
     
-    @design.preview = File.open(temp_file_name)
+    @design.preview_file_name = File.open(temp_file_name)
 
     respond_to do |format|
       if @design.save

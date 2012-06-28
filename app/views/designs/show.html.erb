@@ -12,7 +12,7 @@
    <%= @design.description %> 
   </p>  
   <p>
-    <%= image_tag @design.texture.image.thumbnail, :width => 100 %>
+    <%= image_tag @design.texture.image.(:thumb), :width => 100 %>
     <%= image_tag @design.form.image.url(:thumb), :width => 100 %>
   </p>
   <h4><span class="grey">artwork by </span> <%= link_to @design.texture.user.username, user_path(@design.texture.user) %></h4>
@@ -31,7 +31,7 @@
     <% if userdesign.id != @design.id %>
       <div class='recent-design-group outline'>
           <%= link_to userdesign do %>
-            <%= image_tag userdesign.preview.thumbnail %>
+            <%= image_tag userdesign.preview.url(:thumb) %>
           <% end %>
       </div>
     <% end %>
@@ -47,7 +47,7 @@
   
   <script type="text/javascript">
     $(function() {
-      init3DBuild('<%= @design.form.mesh %>', '<%= @design.texture.image.square %>');
+      init3DBuild('<%= @design.form.front_mesh.url %>','<%= @design.form.back_mesh.url %>', '<%= @design.texture.image.square %>');
     });
   </script>
 <% end %>

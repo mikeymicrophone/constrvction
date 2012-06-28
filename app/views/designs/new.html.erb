@@ -138,6 +138,7 @@
       console.log("init");
       loadthis(front_mesh);
       loadthis(back_mesh);
+      $('#design-form').val(style_id);
       changeTexture(texture_file);
       
       
@@ -200,19 +201,19 @@
       </div>
     </div>
   </div>
-
+<!--
   <div id="available-designs">
     <h3>Newest Constrvcts</h3>
   <div id="recent-designs">
   <% @designs.each do |design| %>
     <div class="recent-design-group">
-      <%= image_tag design.preview, :width => 100, :class =>'recent-design', :'data-mesh-front' => design.form.front_mesh.url, :'data-mesh-back' => design.form.back_mesh.url, :'data-form-id' => design.form.id, :'data-texture-file' => design.texture.image.square, :'data-texture-id' => design.texture.id  %>
+     <%= image_tag design.preview.url(:thumb), :width => 100, :class =>'recent-design', :'data-mesh-front' => design.form.front_mesh.url, :'data-mesh-back' => design.form.back_mesh.url, :'data-form-id' => design.form.id, :'data-texture-file' => design.texture.image.url(:v512), :'data-texture-id' => design.texture.id  %>
       <span>by <%= link_to design.user.username, design.user %></span>
     </div>  
   <% end %>
   </div>
   </div>
-
+--> 
   
 <script type="text/javascript" src='/assets/processingjs/processing-1.3.6.min.js'/>
 <script type="application/processing" >

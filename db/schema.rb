@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120628040840) do
+ActiveRecord::Schema.define(:version => 20120628073324) do
 
   create_table "admins", :force => true do |t|
     t.string   "username"
@@ -36,11 +36,14 @@ ActiveRecord::Schema.define(:version => 20120628040840) do
     t.integer  "form_id"
     t.integer  "texture_id"
     t.integer  "user_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-    t.string   "preview"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
     t.string   "title"
     t.string   "description"
+    t.string   "preview_file_name"
+    t.string   "preview_content_type"
+    t.integer  "preview_file_size"
+    t.datetime "preview_updated_at"
   end
 
   add_index "designs", ["form_id"], :name => "index_designs_on_form_id"

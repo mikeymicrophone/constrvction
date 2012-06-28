@@ -6,7 +6,7 @@
     <div class='grid-design-group'>
       <div class='design-unit'>
         <%= link_to design do %>
-          <%= image_tag design.preview.thumb200 %>
+          <%= image_tag design.preview.url(:thumb200) %>
         <% end %>
         <div>
         <h5><%= design.title %></h5>
@@ -16,8 +16,8 @@
       
     <% if current_admin %>  
       <div class="admin-unit">
-      <%= image_tag design.form.image.url(:thumb) %>
-      <%= image_tag design.texture.image.thumbnail, :width => 100 %>
+      
+      <%= image_tag design.texture.image.url(:thumb), :width => 100 %>
 
       <%= link_to 'Edit', edit_design_path(design) %>
       <%= link_to 'Destroy', design, :method => :delete, :data => { :confirm => 'Are you sure?' } %>
