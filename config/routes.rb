@@ -12,6 +12,7 @@ Constrvct::Application.routes.draw do
   resources :users, :only => [:show]
 
   root :to => "designs#index"
+  #root :to => "designs#constrvct"
   #root :to => "devise/registrations#new"
   
   # The priority is based upon order of creation:

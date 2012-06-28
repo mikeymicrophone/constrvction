@@ -3,7 +3,7 @@ class DesignsController < ApplicationController
   before_filter :authenticate_admin!, :only => [:edit, :update]
   
   def constrvct
-    debugger
+    #debugger
     @textures = Texture.find(:all, :limit => 21, :order=> 'created_at desc')
     @designs = Design.find(:all, :limit => 20, :order=> 'created_at desc')
   end
@@ -35,7 +35,9 @@ class DesignsController < ApplicationController
   # GET /designs/new.json
   def new
     @design = Design.new
-
+    @textures = Texture.find(:all, :limit => 21, :order=> 'created_at desc')
+    @designs = Design.find(:all, :limit => 20, :order=> 'created_at desc')
+    
     respond_to do |format|
       format.html # new.html.erb
       format.json { render :json => @design }

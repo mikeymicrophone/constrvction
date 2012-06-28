@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120627153706) do
+ActiveRecord::Schema.define(:version => 20120627190816) do
 
   create_table "admins", :force => true do |t|
     t.string   "username"
@@ -49,10 +49,20 @@ ActiveRecord::Schema.define(:version => 20120627153706) do
 
   create_table "forms", :force => true do |t|
     t.string   "name"
-    t.string   "thumbnail"
-    t.string   "mesh"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
+    t.string   "front_mesh_file_name"
+    t.string   "front_mesh_content_type"
+    t.integer  "front_mesh_file_size"
+    t.datetime "front_mesh_updated_at"
+    t.string   "back_mesh_file_name"
+    t.string   "back_mesh_content_type"
+    t.integer  "back_mesh_file_size"
+    t.datetime "back_mesh_updated_at"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
   end
 
   create_table "textures", :force => true do |t|

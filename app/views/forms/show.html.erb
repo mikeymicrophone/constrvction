@@ -5,12 +5,15 @@
 </p>
 
 <p>
-  <%= image_tag @form.thumbnail %>
+  <%= image_tag @form.image.url(:medium) %>
 </p>
 
 <p>
-  <b>Mesh:</b>
-  <%= @form.mesh.file.filename %>
+  <b>Front Mesh:</b>
+  <%= @form.front_mesh_file_name %>
+  <br />
+  <b>Back Mesh:</b>
+  <%= @form.back_mesh_file_name %>
 </p>
 
 

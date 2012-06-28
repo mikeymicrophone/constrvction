@@ -13,10 +13,12 @@
 <% @forms.each do |form| %>
   <tr>
 	<td><%= link_to form.name, form %></td>
-    <td><%= image_tag form.thumbnail %></td>
-    <td><%= form.mesh.file.filename %></td>
+    <td><%= image_tag form.image.url(:thumb) %></td>
+    <td><%= form.front_mesh.url %></td>
+    <td><%= form.back_mesh.url %></td>
     
     <td><%= link_to 'Edit', edit_form_path(form) %></td>
+    <td><%= link_to 'Destroy', form, :method => :delete, :data => { :confirm => 'Are you sure?' }%></td>
   </tr>
 <% end %>
 </table>

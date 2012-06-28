@@ -1,5 +1,215 @@
 <h1>New design</h1>
 
-<%= render 'form' %>
+<%= content_for :scripts do %>
+  <script type="text/javascript" src='/assets/Three/Three.js'> </script>
+  <script type="text/javascript" src="/assets/Three/OBJLoader.js"> </script>
+  <script type="text/javascript" src="/assets/Three/Detector.js" > </script>
+  <script type="text/javascript" src="/assets/Three/Stats.js" > </script>
+  
+  <script type="text/javascript">
+    var selected_style_mesh;
+    var selected_texture;
+    
+    function adopt_image(image, texture_id) {
+      refresh(selected_style_mesh, image);
+      $('#design-texture').val(texture_id);
+      show_save_button();
+    }
+    function update_design() {
+      refresh(selected_style_mesh, selected_texture);
+      show_save_button();
+    }
+    
+    function update_texture(file) {
+      changeTexture(file);
+      show_save_button();
+    }
+    function update_style() {
+      changeModel(selected_style_mesh);
+      show_save_button();
+    }
+    
+    function show_save_button() {
+      $('#save-button').show();
+      $('#design-title').show();
+    }
+  
+    $(function() {
+      $("#texture_image").on('change', function() {
+        if ($("#texture_image").val() != "") {
+          //$("#upload-image-button").show();
+          $('#new_texture span').html($("#texture_image").val());
+          console.log('upload texture');
+          $('#new_texture').submit();
+        } else {
+          $('#new_texture span').html('Use your own photo or image');
+          //$("#upload-image-button").hide();
+        }
+      })
+      
+      $("#upload-button").click(function(){
+        console.log('upload clicked');
+        $("#texture_image").click();
+      })
+      
+      $('.style img').click(function() {
+        $('.style .selected').removeClass('selected');
+        $(this).addClass('selected');
+        $('#design-form').val($(this).data('form-id'));
+        selected_style_mesh = $(this).data('mesh-file');
+        update_style();
+      });
+      
+      $('.texture-option').live('click', function() {
+        $('.selected-texture').removeClass('selected-texture');
+        $(this).addClass('selected-texture');
+        selected_texture = $(this).data('img');
+        $('#design-texture').val($(this).data('texture-id'));
+        update_texture(selected_texture);
+      });
+      
+      $('.recent-design').live('click', function() {
+        $('.selected-design').removeClass('selected-design');
+        $(this).parent().addClass('selected-design');
+        selected_style_mesh = $(this).data('mesh-file');
+        
+        if ($(this).data('form-id') != $('#design-form').val()) {
+          $('#design-form').val($(this).data('form-id'));
+          adopt_image($(this).data('texture-file') , $(this).data('texture-id') );
+        } else {
+          update_texture($(this).data('texture-file') );
+        }
+      });
+      
+      $('#save-button').click(function() {
+    
+        var designrender = $('#GL')[0].toDataURL("image/png");
+        $('#design-preview').val(designrender);
+        var designdiv = document.createElement('div');
+        designdiv.setAttribute('class', 'recent-design-group');
+        var newdesign = document.createElement("img");  
+        newdesign.src = designrender;
+        newdesign.setAttribute('class','recent-design');
+        newdesign.setAttribute('data-texture-id', $('#design-texture').val());
+        newdesign.setAttribute('data-texture-file', selected_texture);
+        newdesign.setAttribute('data-mesh-file', selected_style_mesh);
+        newdesign.setAttribute('data-form-id', $('#design-form').val());
+        designdiv.appendChild(newdesign);
+        $("#my-closet").prepend(designdiv);
+        
+        $("#new_design").submit();
+      });
+      
+      $('.style img').first().addClass('selected');
+      
+      $('#upload-image-button').click(function(){
+        console.log('upload texture');
+        $('#new_texture').submit();
+      });
+      
+      selected_style_mesh = $('.style .selected').data('mesh-file');
+      $('#design-form').val($('.style .selected').data('form-id'));
+      
+      selected_texture = $($('.texture-option')[0]).data('img');
+      $('#design-texture').val($($('.texture-option')[0]).data('texture-id'));
+      
+      init3DBuild(selected_style_mesh, selected_texture );
+
+      
+    });
+    
+    function putDrawing() {
+      var canvas = document.getElementById('drawing');
+      loadCanvas(canvas); 
+    }
+   
+  </script>
+<% end %>
+
+<script type="text/javascript">
+console.log("hello");
+</script>
+
+  <div id="main-design">
+    <div id="style-picker">
+      <% Form.all.each do |style| %>
+        <div class="style">
+          <%= image_tag style.image.url(:thumb), :'data-mesh-file' => style.front_mesh.url, :'data-form-id' => style.id %>
+        </div>
+      <% end %>
+    </div>
+    
+    <div id="render-container">
+    </div>
+    
+    <%= form_for Design.new, :remote => true, :id => 'design-save' do |f| %>
+      <%= f.hidden_field :texture_id, :id => 'design-texture' %>
+      <%= f.hidden_field :form_id, :id => 'design-form' %>
+      <%= f.hidden_field :image_data, :id => 'design-preview' %>
+      <!--
+      <%= f.submit 'Save this design!', :id => 'save-button', :style => 'display:none' %>
+      -->
+      <a class="button" id="save-button" style="display:none;"> SAVE YOUR LOOK </a>
+      <div id="design-title" style="display:none;">
+      <%= f.text_field :title, :placeholder => 'Title Your Look' %>
+      </div>
+    <% end %>
+  </div>
+  
+  <div id="artwork">
+    <h3>Add Artwork</h3>
+    
+    <%= form_for Texture.new, :remote => true, :id => 'texture-upload' do |f| %>
+        <a class="button" id="upload-button"> Upload </a>
+        <span>Use your own photo or image</span>
+        <%= f.file_field :image, :style => 'display:none' %>
+        <br />
+        <a class="button" id="upload-image-button" style="display:none;"> Upload Image </a>
+        <!--
+        <%= f.submit 'Upload image', :id => 'upload-image-button', :style => 'display:none' %>
+        -->
+      <% end %>
+      
+    
+    <div id="available-artwork">
+      <div id="texture-picker">
+      <% @textures.each do |texture| %>
+          <%= image_tag texture.image.thumbnail, :'data-texture-id' => texture.id, :'data-img' => texture.image.square, :class=>"texture-option" %>
+      <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div id="available-designs">
+    <h3>Newest Constrvcts</h3>
+  <div id="recent-designs">
+  <% @designs.each do |design| %>
+    <div class="recent-design-group">
+      <%= image_tag design.preview, :width => 100, :class =>'recent-design', :'data-mesh-file' => design.form.mesh, :'data-form-id' => design.form.id, :'data-texture-file' => design.texture.image.square, :'data-texture-id' => design.texture.id  %>
+      <span>by <%= link_to design.user.username, design.user %></span>
+    </div>  
+  <% end %>
+  </div>
+  </div>
+
+  
+<script type="text/javascript" src='/assets/processingjs/processing-1.3.6.min.js'/>
+<script type="application/processing" >
+</script>
+<canvas id="drawing" data-processing-sources="/assets/ptest.pde" style="display:none;" ></canvas>
+
+<script>
+function stopDrawing() {
+  var processing = Processing.getInstanceById('drawing');
+  processing.noLoop();
+}
+function startDrawing() {
+  var processing = Processing.getInstanceById('drawing');
+  processing.loop();
+}
+console.log("hello");
+
+</script>
+
 
 <%= link_to 'Back', designs_path %>
