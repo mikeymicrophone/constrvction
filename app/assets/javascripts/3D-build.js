@@ -1,6 +1,7 @@
 var container, stats;
 
 var holder;
+var front, back;
 
 var camera, scene, renderer;
 
@@ -14,7 +15,7 @@ var mousex, mousey, pmousex, pmousey, dx, dy;
 var texture;
 var canvastexture = false;
 
-function load(model, img) {
+function loadthis(model, img) {
 	var loader = new THREE.OBJLoader();
 	var tex = THREE.ImageUtils.loadTexture(img);
 	
@@ -32,7 +33,7 @@ function load(model, img) {
 		object.scale.set(5, 5, 5);
 
 		holder.add(object);
-
+		//console.log(object);
 	});
 }
 
@@ -86,7 +87,7 @@ function refresh(model, img) {
 	$("#GL").css('z-index',10);
 	d.removeChild(c);
 
-	load(model, img);
+	loadthis(model, img);
 }
 
 function getPositionLeft(This) {
@@ -133,7 +134,7 @@ function render() {
 
 }
 
-function init3DBuild(){
+function init3DBuild(obj1, obj2, img){
 	mouseIsOver = false;
 	
 	container = document.getElementById("render-container");
@@ -159,7 +160,14 @@ function init3DBuild(){
 
 
 	holder = new THREE.Object3D();
+	front = new THREE.Object3D();
+	back = new THREE.Object3D();
 	scene.add(holder);
+	//scene.add(back);
+	 texture = THREE.ImageUtils.loadTexture(img);
+	console.log("fresh");
+	//loadthis(obj1,img);
+	//loadthis(obj2,img);
 	
 	// RENDERER
 
@@ -199,5 +207,6 @@ function init3DBuild(){
 	container.onmouseout = function(event) {
 		mouseIsOver = false;
 	}
+	console.log("hey hey hey");
 }
 

@@ -103,13 +103,12 @@
         $("#new_design").submit();
       });
       
-      $('.style img').first().addClass('selected');
-      
       $('#upload-image-button').click(function(){
         console.log('uploading texture');
         $('#new_texture').submit();
       });
       
+      $('.style img').first().addClass('selected');
       front_mesh = $('.style .selected').data('mesh-front');
       back_mesh = $('.style .selected').data('mesh-back');
 
@@ -117,11 +116,15 @@
       $('#design-form').val(style_id);
       
       texture_file = $($('.texture-option')[0]).data('img');
+      console.log(texture_file);
       $('#design-texture').val($($('.texture-option')[0]).data('texture-id'));
       
-      init3DBuild();
-      load(front_mesh, texture_file);
-      load(back_mesh, texture_file);
+      init3DBuild(front_mesh, back_mesh, texture_file);
+      //load(front_mesh, texture_file);
+      
+      loadthis(front_mesh, texture_file);
+      loadthis(back_mesh, texture_file);
+      $('.texture-option').first().click();
       
     });
     
@@ -177,7 +180,7 @@
     <div id="available-artwork">
       <div id="texture-picker">
       <% @textures.each do |texture| %>
-          <%= image_tag texture.image.thumbnail, :'data-texture-id' => texture.id, :'data-img' => texture.image.square, :class=>"texture-option" %>
+          <%= image_tag texture.image.url(:thumb), :'data-texture-id' => texture.id, :'data-img' => texture.image.url(:v512), :class=>"texture-option" %>
       <% end %>
       </div>
     </div>
@@ -210,6 +213,5 @@ function startDrawing() {
   var processing = Processing.getInstanceById('drawing');
   processing.loop();
 }
-console.log("hello");
 
 </script>
