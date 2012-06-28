@@ -17,7 +17,6 @@
     <% if current_admin %>  
       <div class="admin-unit">
       
-      <%= image_tag design.texture.image.url(:thumb), :width => 100 %>
 
       <%= link_to 'Edit', edit_design_path(design) %>
       <%= link_to 'Destroy', design, :method => :delete, :data => { :confirm => 'Are you sure?' } %>

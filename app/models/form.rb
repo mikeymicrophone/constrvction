@@ -3,13 +3,19 @@ class Form < ActiveRecord::Base
   attr_accessible :mesh, :name, :image, :front_mesh, :back_mesh
 
   has_attached_file :front_mesh,
-  :storage => :filesystem
+  :storage => :filesystem,
+  :path => "public/forms/:id/:basename_:id.:extension",
+  :url => "/forms/:id/:basename_:id.:extension"
   
   has_attached_file :back_mesh,
-  :storage => :filesystem
+  :storage => :filesystem,
+  :path => "public/forms/:id/:basename_:id.:extension",
+  :url => "/forms/:id/:basename_:id.:extension"
 
   has_attached_file :image, :styles => { :medium => "300x300#", :thumb => "100x100#" },
-  :storage => :filesystem
+  :storage => :filesystem,
+  :path => "public/forms/:id/:basename_:style.:extension",
+  :url => "/forms/:id/:basename_:style.:extension"
 
 =begin
   has_attached_file :front_mesh,

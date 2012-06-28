@@ -19,3 +19,7 @@
 # Ignore uploaded files
 /public/uploads
 /public/system
+/public/textures
+/public/users
+/public/designs
+/public/forms
