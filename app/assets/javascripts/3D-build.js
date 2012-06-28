@@ -15,37 +15,14 @@ var texture;
 var canvastexture = false;
 
 function load(model, img) {
-
-	scene = new THREE.Scene();
-
-	camera = new THREE.PerspectiveCamera(45, renderw / renderh, 1, 2000);
-	camera.position.z = 100;
-	scene.add(camera);
-
-	var ambient = new THREE.AmbientLight(0x0C0C0C);
-	scene.add(ambient);
-
-	var directionalLight = new THREE.DirectionalLight(0xD6D6D6);
-	directionalLight.position.set(70, 70, 100);
-	//.normalize();
-	scene.add(directionalLight);
-
-	var directionalLight2 = new THREE.DirectionalLight(0xD6D6D6);
-	directionalLight2.position.set(-70, 70, 100);
-	//.normalize();
-	scene.add(directionalLight2);
-
-	texture = THREE.ImageUtils.loadTexture(img);
-
-	holder = new THREE.Object3D();
-	scene.add(holder);
-
 	var loader = new THREE.OBJLoader();
+	var tex = THREE.ImageUtils.loadTexture(img);
+	
 	loader.load(model, function(object) {
 
 		for(var i = 0, l = object.children.length; i < l; i++) {
 
-			object.children[i].material.map = texture;
+			object.children[i].material.map = tex;
 			object.children[i].material.alphaTest = 0.5;
 			//console.log(object.children[i].material);
 			object.children[i].doubleSided = true;
@@ -57,13 +34,6 @@ function load(model, img) {
 		holder.add(object);
 
 	});
-
-	// RENDERER
-
-	renderer = new THREE.WebGLRenderer( { antialias: true, preserveDrawingBuffer : true } );
-	renderer.setSize(renderw, renderh);
-	renderer.domElement.id = "GL";
-	container.appendChild(renderer.domElement);
 }
 
 function changeTexture(img){
@@ -163,12 +133,41 @@ function render() {
 
 }
 
-function init3DBuild(obj, img){
+function init3DBuild(){
 	mouseIsOver = false;
 	
 	container = document.getElementById("render-container");
 
-	load(obj,img);
+	scene = new THREE.Scene();
+
+	camera = new THREE.PerspectiveCamera(45, renderw / renderh, 1, 2000);
+	camera.position.z = 100;
+	scene.add(camera);
+
+	var ambient = new THREE.AmbientLight(0x0C0C0C);
+	scene.add(ambient);
+
+	var directionalLight = new THREE.DirectionalLight(0xD6D6D6);
+	directionalLight.position.set(70, 70, 100);
+	//.normalize();
+	scene.add(directionalLight);
+
+	var directionalLight2 = new THREE.DirectionalLight(0xD6D6D6);
+	directionalLight2.position.set(-70, 70, 100);
+	//.normalize();
+	scene.add(directionalLight2);
+
+
+	holder = new THREE.Object3D();
+	scene.add(holder);
+	
+	// RENDERER
+
+	renderer = new THREE.WebGLRenderer( { antialias: true, preserveDrawingBuffer : true } );
+	renderer.setSize(renderw, renderh);
+	renderer.domElement.id = "GL";
+	container.appendChild(renderer.domElement);
+	
 	animate();
 
 	container.onmousemove = function(event) {
@@ -201,6 +200,4 @@ function init3DBuild(obj, img){
 		mouseIsOver = false;
 	}
 }
-$(document).ready(function() {
-	
-});
+

@@ -1,5 +1,3 @@
-<h1>New design</h1>
-
 <%= content_for :scripts do %>
   <script type="text/javascript" src='/assets/Three/Three.js'> </script>
   <script type="text/javascript" src="/assets/Three/OBJLoader.js"> </script>
@@ -7,16 +5,17 @@
   <script type="text/javascript" src="/assets/Three/Stats.js" > </script>
   
   <script type="text/javascript">
-    var selected_style_mesh;
-    var selected_texture;
+    var front_mesh, back_mesh;
+    var style_id, texture_id;
+    var texture_file;
     
     function adopt_image(image, texture_id) {
-      refresh(selected_style_mesh, image);
+      refresh(front_mesh, image);
       $('#design-texture').val(texture_id);
       show_save_button();
     }
     function update_design() {
-      refresh(selected_style_mesh, selected_texture);
+      refresh(front_mesh, texture_file);
       show_save_button();
     }
     
@@ -25,7 +24,7 @@
       show_save_button();
     }
     function update_style() {
-      changeModel(selected_style_mesh);
+      changeModel(front_mesh);
       show_save_button();
     }
     
@@ -37,13 +36,11 @@
     $(function() {
       $("#texture_image").on('change', function() {
         if ($("#texture_image").val() != "") {
-          //$("#upload-image-button").show();
           $('#new_texture span').html($("#texture_image").val());
-          console.log('upload texture');
+          console.log('uploading texture');
           $('#new_texture').submit();
         } else {
           $('#new_texture span').html('Use your own photo or image');
-          //$("#upload-image-button").hide();
         }
       })
       
@@ -55,23 +52,29 @@
       $('.style img').click(function() {
         $('.style .selected').removeClass('selected');
         $(this).addClass('selected');
-        $('#design-form').val($(this).data('form-id'));
-        selected_style_mesh = $(this).data('mesh-file');
+        
+        style_id = $(this).data('form-id');
+        front_mesh = $(this).data('mesh-front');
+        back_mesh = $(this).data('mesh-back');
+        
+        $('#design-form').val(style_id);
+        
         update_style();
       });
       
       $('.texture-option').live('click', function() {
         $('.selected-texture').removeClass('selected-texture');
         $(this).addClass('selected-texture');
-        selected_texture = $(this).data('img');
+        texture_file = $(this).data('img');
         $('#design-texture').val($(this).data('texture-id'));
-        update_texture(selected_texture);
+        update_texture(texture_file);
       });
       
       $('.recent-design').live('click', function() {
         $('.selected-design').removeClass('selected-design');
         $(this).parent().addClass('selected-design');
-        selected_style_mesh = $(this).data('mesh-file');
+        front_mesh = $(this).data('mesh-front');
+        back_mesh = $(this).data('mesh-back');
         
         if ($(this).data('form-id') != $('#design-form').val()) {
           $('#design-form').val($(this).data('form-id'));
@@ -91,8 +94,8 @@
         newdesign.src = designrender;
         newdesign.setAttribute('class','recent-design');
         newdesign.setAttribute('data-texture-id', $('#design-texture').val());
-        newdesign.setAttribute('data-texture-file', selected_texture);
-        newdesign.setAttribute('data-mesh-file', selected_style_mesh);
+        newdesign.setAttribute('data-texture-file', texture_file);
+        newdesign.setAttribute('data-mesh-front', front_mesh);
         newdesign.setAttribute('data-form-id', $('#design-form').val());
         designdiv.appendChild(newdesign);
         $("#my-closet").prepend(designdiv);
@@ -103,18 +106,22 @@
       $('.style img').first().addClass('selected');
       
       $('#upload-image-button').click(function(){
-        console.log('upload texture');
+        console.log('uploading texture');
         $('#new_texture').submit();
       });
       
-      selected_style_mesh = $('.style .selected').data('mesh-file');
-      $('#design-form').val($('.style .selected').data('form-id'));
+      front_mesh = $('.style .selected').data('mesh-front');
+      back_mesh = $('.style .selected').data('mesh-back');
+
+      style_id = $('.style .selected').data('form-id');
+      $('#design-form').val(style_id);
       
-      selected_texture = $($('.texture-option')[0]).data('img');
+      texture_file = $($('.texture-option')[0]).data('img');
       $('#design-texture').val($($('.texture-option')[0]).data('texture-id'));
       
-      init3DBuild(selected_style_mesh, selected_texture );
-
+      init3DBuild();
+      load(front_mesh, texture_file);
+      load(back_mesh, texture_file);
       
     });
     
@@ -126,15 +133,11 @@
   </script>
 <% end %>
 
-<script type="text/javascript">
-console.log("hello");
-</script>
-
   <div id="main-design">
     <div id="style-picker">
       <% Form.all.each do |style| %>
         <div class="style">
-          <%= image_tag style.image.url(:thumb), :'data-mesh-file' => style.front_mesh.url, :'data-form-id' => style.id %>
+          <%= image_tag style.image.url(:thumb), :'data-mesh-front' => style.front_mesh.url, :'data-mesh-back' => style.back_mesh.url, :'data-form-id' => style.id %>
         </div>
       <% end %>
     </div>
@@ -185,7 +188,7 @@ console.log("hello");
   <div id="recent-designs">
   <% @designs.each do |design| %>
     <div class="recent-design-group">
-      <%= image_tag design.preview, :width => 100, :class =>'recent-design', :'data-mesh-file' => design.form.mesh, :'data-form-id' => design.form.id, :'data-texture-file' => design.texture.image.square, :'data-texture-id' => design.texture.id  %>
+      <%= image_tag design.preview, :width => 100, :class =>'recent-design', :'data-mesh-front' => design.form.front_mesh.url, :'data-mesh-back' => design.form.back_mesh.url, :'data-form-id' => design.form.id, :'data-texture-file' => design.texture.image.square, :'data-texture-id' => design.texture.id  %>
       <span>by <%= link_to design.user.username, design.user %></span>
     </div>  
   <% end %>
@@ -210,6 +213,3 @@ function startDrawing() {
 console.log("hello");
 
 </script>
-
-
-<%= link_to 'Back', designs_path %>
