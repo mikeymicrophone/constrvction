@@ -15,15 +15,19 @@ var mousex, mousey, pmousex, pmousey, dx, dy;
 var texture;
 var canvastexture = false;
 
-function loadthis(model, img) {
+console.log("hello 3");
+
+
+
+function loadthis(model) {
 	var loader = new THREE.OBJLoader();
-	var tex = THREE.ImageUtils.loadTexture(img);
+	//var tex = THREE.ImageUtils.loadTexture(img);
 	
 	loader.load(model, function(object) {
 
 		for(var i = 0, l = object.children.length; i < l; i++) {
 
-			object.children[i].material.map = tex;
+			object.children[i].material.map = texture;
 			object.children[i].material.alphaTest = 0.5;
 			//console.log(object.children[i].material);
 			object.children[i].doubleSided = true;
@@ -37,16 +41,31 @@ function loadthis(model, img) {
 	});
 }
 
-function changeTexture(img){
-	canvastexture = false;
-	texture = THREE.ImageUtils.loadTexture(img);
+function loadModel(path) {
+	var loader = new THREE.OBJLoader();
+	var obj = new THREE.Object3D();
+	//var tex = THREE.ImageUtils.loadTexture(img);
 	
-	for(var i = 0, l = holder.children[0].children.length; i < l; i++) {
+	loader.load(path, function(object) {
 
-		holder.children[0].children[i].material.map = texture;
-		holder.children[0].children[i].doubleSided = true;
-	}
+		for(var i = 0, l = object.children.length; i < l; i++) {
+
+			object.children[i].material.map = texture;
+			object.children[i].material.alphaTest = 0.5;
+			//console.log(object.children[i].material);
+			object.children[i].doubleSided = true;
+		}
+
+		object.position.y = 0;
+		object.scale.set(5, 5, 5);
+
+		obj.add(object);
+		//console.log(object);
+	});
+	return obj;
 }
+
+
 
 function loadCanvas(canvas){
 	canvastexture = true;
@@ -58,27 +77,6 @@ function loadCanvas(canvas){
 		holder.children[0].children[i].material.map = texture;
 		holder.children[0].children[i].doubleSided = true;
 	}
-}
-
-function changeModel(model) {
-	scene.remove(holder);
-	holder = new THREE.Object3D();
-	
-	var loader = new THREE.OBJLoader();
-	loader.load(model, function(object) {
-
-		for(var i = 0, l = object.children.length; i < l; i++) {
-
-			object.children[i].material.map = texture;
-			object.children[i].doubleSided = true;
-		}
-
-		object.position.y = 0;
-		object.scale.set(5, 5, 5);
-
-		holder.add(object);
-	});
-	scene.add(holder);
 }
 
 function refresh(model, img) {
@@ -162,10 +160,17 @@ function init3DBuild(obj1, obj2, img){
 	holder = new THREE.Object3D();
 	front = new THREE.Object3D();
 	back = new THREE.Object3D();
+	
+	texture = THREE.ImageUtils.loadTexture(img);
+	console.log(texture);
+	scene.add(front);
+	scene.add(back);
+	//loadFront(obj1);
+	//loadBack(obj2);
+	
+	console.log(front);
+	
 	scene.add(holder);
-	//scene.add(back);
-	 texture = THREE.ImageUtils.loadTexture(img);
-	console.log("fresh");
 	//loadthis(obj1,img);
 	//loadthis(obj2,img);
 	

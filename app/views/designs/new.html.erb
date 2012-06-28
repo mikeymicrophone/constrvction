@@ -9,22 +9,37 @@
     var style_id, texture_id;
     var texture_file;
     
-    function adopt_image(image, texture_id) {
-      refresh(front_mesh, image);
-      $('#design-texture').val(texture_id);
-      show_save_button();
+    function changeTexture(img){
+    	console.log(img);
+    	canvastexture = false;
+    	texture = THREE.ImageUtils.loadTexture(img);
+
+    	for (var a=0; a <holder.children.length; a++) {
+    		for(var i = 0, l = holder.children[a].children.length; i < l; i++) {
+
+    			holder.children[a].children[i].material.map = texture;
+    			holder.children[a].children[i].doubleSided = true;
+    		}
+    	}
     }
-    function update_design() {
-      refresh(front_mesh, texture_file);
-      show_save_button();
+    
+    function changeModel(obj1, obj2) {
+    	scene.remove(holder);
+    	holder = new THREE.Object3D();
+
+    	loadthis(obj1);
+    	loadthis(obj2);
+    	scene.add(holder);
     }
     
     function update_texture(file) {
       changeTexture(file);
+      $('#design-texture').val(texture_id);
       show_save_button();
     }
     function update_style() {
-      changeModel(front_mesh);
+      changeModel(front_mesh, back_mesh);
+      $('#design-form').val(style_id);
       show_save_button();
     }
     
@@ -57,8 +72,6 @@
         front_mesh = $(this).data('mesh-front');
         back_mesh = $(this).data('mesh-back');
         
-        $('#design-form').val(style_id);
-        
         update_style();
       });
       
@@ -66,7 +79,8 @@
         $('.selected-texture').removeClass('selected-texture');
         $(this).addClass('selected-texture');
         texture_file = $(this).data('img');
-        $('#design-texture').val($(this).data('texture-id'));
+        
+        texture_id=$(this).data('texture-id');
         update_texture(texture_file);
       });
       
@@ -75,12 +89,14 @@
         $(this).parent().addClass('selected-design');
         front_mesh = $(this).data('mesh-front');
         back_mesh = $(this).data('mesh-back');
+        texture_file = $(this).data('texture-file');
         
         if ($(this).data('form-id') != $('#design-form').val()) {
-          $('#design-form').val($(this).data('form-id'));
-          adopt_image($(this).data('texture-file') , $(this).data('texture-id') );
+          style_id = $(this).data('form-id');
+          update_texture(texture_file);
+          update_style();
         } else {
-          update_texture($(this).data('texture-file') );
+          update_texture(texture_file );
         }
       });
       
@@ -93,10 +109,11 @@
         var newdesign = document.createElement("img");  
         newdesign.src = designrender;
         newdesign.setAttribute('class','recent-design');
-        newdesign.setAttribute('data-texture-id', $('#design-texture').val());
+        newdesign.setAttribute('data-texture-id', texture_id);
         newdesign.setAttribute('data-texture-file', texture_file);
         newdesign.setAttribute('data-mesh-front', front_mesh);
-        newdesign.setAttribute('data-form-id', $('#design-form').val());
+        newdesign.setAttribute('data-mesh-back', back_mesh);
+        newdesign.setAttribute('data-form-id', style_id);
         designdiv.appendChild(newdesign);
         $("#my-closet").prepend(designdiv);
         
@@ -113,18 +130,16 @@
       back_mesh = $('.style .selected').data('mesh-back');
 
       style_id = $('.style .selected').data('form-id');
-      $('#design-form').val(style_id);
       
       texture_file = $($('.texture-option')[0]).data('img');
-      console.log(texture_file);
-      $('#design-texture').val($($('.texture-option')[0]).data('texture-id'));
+      texture_id = $($('.texture-option')[0]).data('texture-id');
       
       init3DBuild(front_mesh, back_mesh, texture_file);
-      //load(front_mesh, texture_file);
+      console.log("init");
+      loadthis(front_mesh);
+      loadthis(back_mesh);
+      changeTexture(texture_file);
       
-      loadthis(front_mesh, texture_file);
-      loadthis(back_mesh, texture_file);
-      $('.texture-option').first().click();
       
     });
     

@@ -1,5 +1,5 @@
 $('.selected-texture').removeClass('selected-texture');
-$("#texture-picker").prepend('<%= escape_javascript image_tag(@texture.image.url(:v512), :'data-texture-id' => @texture.id, :width => 100, :class=>"texture-option selected-texture") %>');
+$("#texture-picker").prepend('<%= escape_javascript image_tag(@texture.image.url(:v512), :'data-texture-id' => @texture.id, :'data-img' => @texture.image.url(:v512), :width => 100, :class=>"texture-option selected-texture") %>');
 
 $('#design-texture').val(<%= @texture.id %>);
 texture_file = '<%= @texture.image.url(:v512) %>';
