@@ -16,7 +16,7 @@
       
     <% if current_admin %>  
       <div class="admin-unit">
-      <%= image_tag design.form.image.url(:thumb), :width => 100 %>
+      <%= image_tag design.form.image.url(:thumb) %>
       <%= image_tag design.texture.image.thumbnail, :width => 100 %>
 
       <%= link_to 'Edit', edit_design_path(design) %>
